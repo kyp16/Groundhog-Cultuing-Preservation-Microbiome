@@ -1,0 +1,1506 @@
+---
+title: "Reviving the gut microbiome of three groundhog using preservation solutions"
+author: "Karen Peralta Martinez"
+output: 
+  html_document:
+    code_folding: hide
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: no
+    theme: sandstone
+    highlight: tango
+    number_sections: false
+    fig_width: 9
+    fig_height: 6
+---
+
+# Intro
+
+Welcome!
+
+Here you will find the codes to the analysis we ran for our manuscript. We would be happy to help in way we can, so please do not hesitate to reach out if you have questions or suggestions. 
+
+We designed this study because we deal with problems like this one in our own field research and the advances in the field of culturomics and microbiology today are allowing us to get closer to expanding the field of microbiome science. We hope this study serves as a stepping stone to get us closer to preservations methods we can employ to help preserve the microbial communities of wild animals. 
+
+# Methods
+
+We employed two methods, culture-dependent and culture-independent, in a variety of experiments to study the richness and diversity of cultured cecal microbes from three field-collected groundhogs from western Pennsylvania. We preserved the cecal contents within 1 hour postmortem into four different preservation solutions and without a preservation (frozen) as a control, which is considered a standard in the field of microbiome research. However, field researchers collecting microbiome samples face challenges in maintaining microbial integrity when during collection and transportation back to the laboratory as well as storage for long period of time in a -80C. 
+
+**Our study aims are:**
+
+1. To compare the effectiveness to which preservation solutions can preserve microbial integrity after gut samples during collection and for a short period of time (mimicking transportation) prior to storage at -80C by growing samples in three distinct culture media to support the most recovered diversity. 
+
+2. To compare the effectiveness to which preservation solutions preserved samples to the original sample without culturing.    
+
+**Notes to keep in mind:**
+
+1. We  chose preservation solutions that have already been described for microbial culturing.
+
+2. We chose culture media that have already been described for microbial culturing, especially gut microbiome samples.
+
+
+
+
+# Results
+```{r, include=FALSE}
+####### Clear workspace ########
+rm(list=ls())
+
+####### Load packages ########
+library("here")
+library(hrbrthemes)
+library(ggplot2)
+library(viridis)
+library(plotrix)
+options(scipen = 999)
+library(scales)
+devtools::install_github("dill/beyonce")
+library(beyonce)
+devtools::install_github("jbgb13/peRReo")
+library(peRReo)
+library(ggpubr)
+library(patchwork)
+library(ggbreak)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(lme4)
+library(lmerTest)
+library(nlme)
+library(FSA)
+library(afex) # to add pvalues to F values
+library(jtools)
+library(vegan)
+remotes::install_github("vmikk/metagMisc")
+library("metagMisc")
+devtools::install_github('microsud/microbiomeutilities')
+library("microbiomeutilities")
+library(microeco)
+library(magrittr)
+library(VennDiagram)
+library(eulerr)
+library(microbiome)
+library(metagMisc)
+```
+
+
+## Liquid Cultures {.tabset .tabset-fade .tabset-pills}
+```{r, include=FALSE, eval=TRUE}
+####### Liquid culture analysis ########
+####### Working with log10 (delta time point (24h and 0h)) ####### 
+## Mean, n, and glmm for Aerobes
+data <- read.delim("culturedata/allspecimen-allpreservation-aer-020822-delta-no-fresh.txt")
+
+data$media <- factor(data$media, levels = c("MH", "BHI", "GMM"))
+data$preservation <- factor(data$preservation, levels = c("Preservation-free", "Buffered glycerol", "Stuart", "Cary blair", "Protectant"))
+
+data2<- read.delim("culturedata/allspecimen-allpreservation-ana-020822-delta-no-fresh.txt")
+data2$media <- factor(data2$media, levels = c("MH","BHI", "GMM"))
+data2$preservation <- factor(data2$preservation, levels = c("Preservation-free", "Buffered glycerol", "Stuart", "Cary blair", "Protectant"))
+
+```
+
+## {-}
+
+### Aerobes {.tabset .tabset-fade .tabset-pills}
+#### Means/N
+```{r}
+aggregate(deltacultureconc ~ preservation, 
+          data=data,
+          function(x) round(c(mean=mean(x), sd=sd(x)), 2)) #means
+
+aggregate(deltacultureconc ~ preservation, data, FUN="length") #n values
+```
+
+
+#### Plot
+```{r, fig.show='hold', out.width='50%'}
+# palette
+pal=latin_palette('badbunny2',7 )
+
+scientific_10 <- function(x) {
+  parse(text=gsub("e", " %*% 10^", scales::scientific_format()(x)))
+}
+
+media <- c("Mueller Hinton", "Brain Heart Infusion", "Gut Microbiota Media")
+
+ggplot(data, aes(x = media, y = deltacultureconc, color=preservation)) + 
+  geom_boxplot(aes()) + 
+  scale_y_continuous(name="Bacterial Density (cells/ml)",  labels = scientific_10) + 
+  scale_x_discrete(labels= media) +
+  scale_color_manual(values=pal,labels=c("Preservation-free", "Buffered glycerol", "Stuart", "Cary blair", "Protectant"), name="Preservation Solution") + 
+  labs( x='Culture Media' ) +
+  theme(legend.position="top") +  
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(),  axis.line = element_line(colour = "black"))+
+  theme(text = element_text(size = 14, face = "bold")) +
+  theme(axis.text.x = element_text(size = 12))
+
+
+ggplot(data, aes(x=preservation, y=deltacultureconc, color=media)) +
+  geom_boxplot(aes()) + 
+  scale_y_continuous(name="Bacterial Density (cells/ml)",  labels = scientific_10) + 
+  scale_color_brewer(palette = "Dark2",labels=c("MH", "BHI", "GMM", name="Media")) + 
+  labs( x='Preservation Solutions' ) +
+  theme(legend.position="top") +  
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(),  axis.line = element_line(colour = "black"))+
+  theme(text = element_text(size = 14, face = "bold")) +
+  theme(axis.text.x = element_text(size = 12))
+
+```
+
+
+
+#### GLMM
+```{r}
+Model_liqaer <- lmer(deltacultureconc~as.factor(preservation) * as.factor(media) + (1|group), data = data) #glmm model
+
+allFit(Model_liqaer)
+anova(Model_liqaer)
+summ(Model_liqaer)
+summary(Model_liqaer)
+
+P1_P <- dunnTest(deltacultureconc ~ preservation, 
+               data = data, method="holm") # require the FSA package     
+
+P1_P
+
+P1_M <- dunnTest(deltacultureconc ~ media, 
+               data = data, method="holm") # require the FSA package     
+
+P1_M
+```
+
+## {-}
+
+---
+
+### Anaerobes {.tabset .tabset-fade .tabset-pills}
+
+
+#### Mean/N
+```{r}
+aggregate(deltacultureconc ~ preservation, 
+          data=data2,
+          function(x) round(c(mean=mean(x), sd=sd(x)), 2)) #means
+
+aggregate(deltacultureconc ~ preservation, data2, FUN="length") #n values
+```
+
+#### Plot
+```{r, fig.show='hold', out.width='50%'}
+ggplot(data2, aes(x = media, y = deltacultureconc, color=preservation)) + 
+  geom_boxplot(aes()) + 
+  scale_y_continuous(name="Bacterial Density (cells/ml)",  labels = scientific_10) + 
+  scale_x_discrete(labels= media) +
+  scale_color_manual(values=pal,labels=c( "Preservation-free", "Buffered Glycerol", "Stuart", "Cary-Blair", "Protectant"), name="Preservation Solution:") + 
+  labs( x='Culture Media' ) +
+  theme(legend.position="top",
+        legend.title = element_blank(),
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black"))+  
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(),  axis.line = element_line(colour = "black"))+
+  theme(text = element_text(size = 14, face = "bold")) +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+  theme(legend.key.width = unit(0.25, "cm"))
+
+
+ggplot(data2, aes(x=preservation, y=deltacultureconc, color=media))+
+  geom_boxplot(aes()) + 
+  scale_y_continuous(name="Bacterial Density (cells/ml)",  labels = scientific_10) + 
+  scale_color_brewer(name="Media:", palette = "Dark2",labels=c("Mueller Hinton", "Brain Heart Infusion", "Gut Microbiota Media")) + 
+  labs( x='Preservation Solutions' ) +
+  theme(legend.position="top",
+        legend.title = element_blank(),
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black"))+  
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(),  axis.line = element_line(colour = "black"))+
+  theme(text = element_text(size = 14, face = "bold")) +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+theme(legend.key.width = unit(0.25, "cm"))
+
+```
+
+#### GLMM
+```{r}
+Model_liqana <- lmer(deltacultureconc~as.factor(preservation) * as.factor(media) + (1|group), data = data2) #glmm model
+
+allFit(Model_liqana)
+anova(Model_liqana)
+summ(Model_liqana)
+summary(Model_liqana)
+
+P2_P <- dunnTest(deltacultureconc ~ preservation, 
+               data = data2, method="holm") # require the FSA package     
+
+P2_P
+
+P2_M <- dunnTest(deltacultureconc ~ media, 
+               data = data2, method="holm") # require the FSA package     
+
+P2_M
+```
+
+
+```{r, include=FALSE, eval=FALSE}
+multiplot_liq <- ggarrange(c3, c4, c1, c2,
+                        labels = c("A", "B", "C", "D"), ncol = 2, nrow = 2)
+multiplot_liq
+```
+
+## Plate cultures {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE, eval=TRUE}
+####### Plate culture analysis ########
+####### Working with log10 (delta time point (24h and 0h)) ####### 
+data3<- read.delim("culturedata/cfuml_platecultures_distributionall.txt")
+
+aerobes <- data3 %>% filter(Culture.Condition == "Aerobic", preservation != "Immediately cultured")
+aerobes$Culture.Media <- factor(aerobes$Culture.Media, levels = c("MH", "BHI", "GMM"))
+aerobes$preservation <- factor(aerobes$preservation, levels = c("Preservation-free", "Buffered glycerol", "Stuart", "Cary blair", "Protectant"))
+
+anaerobes <- data3 %>% filter(Culture.Condition == "Anaerobic", preservation != "Immediately cultured")
+anaerobes$Culture.Media <- factor(anaerobes$Culture.Media, levels = c("MH", "BHI", "GMM"))
+anaerobes$preservation <- factor(anaerobes$preservation, levels = c("Preservation-free", "Buffered glycerol", "Stuart", "Cary blair", "Protectant"))
+
+```
+
+## {-}
+
+### Aerobes {.tabset .tabset-fade .tabset-pills}
+
+#### Mean/N
+```{r}
+### Mean, n, and glmm for Aerobes
+aggregate(density ~ preservation, 
+          data=data3 %>%
+            filter( Culture.Condition == "Aerobic" & preservation != "Immediately cultured"),
+          function(x) round(c(mean=mean(x), sd=sd(x)), 2)) #means
+
+aggregate(density ~ preservation, data3 %>%
+            filter( Culture.Condition == "Aerobic" & preservation != "Immediately cultured"), FUN="length") #n values
+```
+
+
+#### Plot
+```{r, fig.show='hold', out.width='50%'}
+c5 <- ggplot(aerobes, aes(x = Culture.Media, y = density, color=preservation)) + 
+  geom_boxplot(aes()) + 
+  scale_y_continuous(name="Bacteria Density (CFU/ml)",  labels = scientific_10) +
+  scale_x_discrete(labels= media) +
+  scale_color_manual(values=pal,labels=c("Preservation-free", "Buffered glycerol", "Stuart", "Cary blair", "Protectant"), name="Preservation solutions:") + 
+  labs(x='Culture Media') +
+  theme(legend.position="none") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) +
+  theme(text = element_text(size = 14, face = "bold")) +
+  theme()
+
+c5<- ggpar(c5, font.x = "14", font.main = "12", font.legend = "12") #c5 plate aerobic by pres
+
+
+c6 <- ggplot(aerobes, aes(x=preservation, y=density, color=Culture.Media))+
+  geom_boxplot(aes()) + 
+  scale_y_continuous(name="Bacteria Density (CFU/ml)",  labels = scientific_10) +
+  scale_color_brewer(palette = "Dark2",labels=c("MH", "BHI", "GMM", name="Media:")) + 
+  labs( x='Preservation Solutions' ) +
+  theme(legend.position="none") +  
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(),  axis.line = element_line(colour = "black")) +
+  theme(text = element_text(size = 14, face = "bold"))+
+  theme()
+
+
+c6<- ggpar(c6, font.x = "14", font.main = "12", font.legend = "12") #c6 plate aerobic by media
+```
+
+#### GLMM
+```{r}
+Model_plare <- lmer(density~as.factor(preservation) * as.factor(Culture.Media) + (1|animal), data = aerobes) #model
+
+allFit(Model_plare)
+anova(Model_plare)
+summ(Model_plare)
+summary(Model_plare)
+
+
+```
+
+## {-}
+
+---
+
+### Anaerobes {.tabset .tabset-fade .tabset-pills}
+
+
+#### Mean/N 
+```{r}
+aggregate(density ~ preservation, 
+          data=data3 %>%
+            filter( Culture.Condition == "Anaerobic" & preservation != "Immediately cultured"),
+          function(x) round(c(mean=mean(x), sd=sd(x)), 2)) #means
+
+aggregate(density ~ preservation, data3 %>%
+            filter( Culture.Condition == "Anaerobic" & preservation != "Immediately cultured"), FUN="length") #n values
+```
+
+#### Plot
+```{r, fig.show='hold', out.width='50%'}
+c7 <- ggplot(anaerobes, aes(x = Culture.Media, y = density, color=preservation)) + 
+  geom_boxplot(aes()) + 
+  scale_y_continuous(name="Bacteria Density (CFU/ml)",  labels = scientific_10) +
+  scale_x_discrete(labels= media) +
+  scale_color_manual(values=pal,labels=c( "Preservation-free", "Buffered Glycerol", "Stuart", "Cary-Blair", "Protectant"), name="Preservation Solution:") + 
+  labs( x='Culture Media' ) +
+  theme(legend.position="top",
+        legend.title = element_blank(),
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black"),
+        legend.key.width = unit(0.25, "cm")) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) +
+  theme(text = element_text(size = 14, face = "bold")) +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+c7<- ggpar(c7, font.legend = "12") #c7 plate anaerobic by pres
+
+c8 <- ggplot(anaerobes, aes(x=preservation, y=density, color=Culture.Media))+ 
+  geom_boxplot(aes()) + 
+  scale_y_continuous(name="Bacteria Density (CFU/ml)",  labels = scientific_10) + 
+  scale_color_brewer(name="Media:", palette = "Dark2",labels=c("Mueller Hinton", "Brain Heart Infusion", "Gut Microbiota Media")) + 
+  labs( x='Preservation Solutions' ) +
+  theme(legend.position="top",
+        legend.title = element_blank(),
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black"),
+        legend.key.width = unit(0.25, "cm")) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(),  axis.line = element_line(colour = "black")) +
+  theme(text = element_text(size = 14, face = "bold")) +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+c8<- ggpar(c8, font.legend = "12") #c8 plate anaerobic by media
+```
+
+
+#### GLMM
+```{r}
+Model_plana <- lmer(density~as.factor(preservation) * as.factor(Culture.Media) + (1|animal), data = anaerobes) #model
+
+allFit(Model_plana)
+anova(Model_plana)
+summ(Model_plana)
+summary(Model_plana)
+
+P3_P <- dunnTest(density ~ preservation, 
+               data = anaerobes, method="holm") # require the FSA package     
+
+P3_P
+
+P3_M <- dunnTest(density ~ Culture.Media, 
+               data = anaerobes, method="holm") # require the FSA package     
+
+P3_M
+```
+
+```{r, include=FALSE}
+##Plots for both Aerobes and Anaerobes
+c5 <- ggplot(aerobes, aes(x = Culture.Media, y = density, color=preservation)) + 
+  geom_boxplot(aes()) + 
+  scale_y_continuous(name="Bacteria Density (CFU/ml)",  labels = scientific_10) +
+  scale_x_discrete(labels= media) +
+  scale_color_manual(values=pal,labels=c("Preservation-free", "Buffered glycerol", "Stuart", "Cary blair", "Protectant"), name="Preservation solutions:") + 
+  labs(x='Culture Media') +
+  theme(legend.position="none") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) +
+  theme(text = element_text(size = 14, face = "bold")) +
+  theme()
+
+c5<- ggpar(c5, font.x = "14", font.main = "12", font.legend = "12") #c5 plate aerobic by pres
+
+
+c6 <- ggplot(aerobes, aes(x=preservation, y=density, color=Culture.Media))+
+  geom_boxplot(aes()) + 
+  scale_y_continuous(name="Bacteria Density (CFU/ml)",  labels = scientific_10) +
+  scale_color_brewer(palette = "Dark2",labels=c("MH", "BHI", "GMM", name="Media:")) + 
+  labs( x='Preservation Solutions' ) +
+  theme(legend.position="none") +  
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(),  axis.line = element_line(colour = "black")) +
+  theme(text = element_text(size = 14, face = "bold"))+
+  theme()
+
+
+c6<- ggpar(c6, font.x = "14", font.main = "12", font.legend = "12") #c6 plate aerobic by media
+
+c7 <- ggplot(anaerobes, aes(x = Culture.Media, y = density, color=preservation)) + 
+  geom_boxplot(aes()) + 
+  scale_y_continuous(name="Bacteria Density (CFU/ml)",  labels = scientific_10) +
+  scale_x_discrete(labels= media) +
+  scale_color_manual(values=pal,labels=c( "Preservation-free", "Buffered Glycerol", "Stuart", "Cary-Blair", "Protectant"), name="Preservation Solution:") + 
+  labs( x='Culture Media' ) +
+  theme(legend.position="top",
+        legend.title = element_blank(),
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black"),
+        legend.key.width = unit(0.25, "cm")) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) +
+  theme(text = element_text(size = 14, face = "bold")) +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+c7<- ggpar(c7, font.legend = "12") #c7 plate anaerobic by pres
+
+c8 <- ggplot(anaerobes, aes(x=preservation, y=density, color=Culture.Media))+ 
+  geom_boxplot(aes()) + 
+  scale_y_continuous(name="Bacteria Density (CFU/ml)",  labels = scientific_10) + 
+  scale_color_brewer(name="Media:", palette = "Dark2",labels=c("Mueller Hinton", "Brain Heart Infusion", "Gut Microbiota Media")) + 
+  labs( x='Preservation Solutions' ) +
+  theme(legend.position="top",
+        legend.title = element_blank(),
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black"),
+        legend.key.width = unit(0.25, "cm")) +   
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(),  axis.line = element_line(colour = "black")) +
+  theme(text = element_text(size = 14, face = "bold")) +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+c8<- ggpar(c8, font.legend = "12") #c8 plate anaerobic by media
+```
+
+```{r, echo=FALSE, fig.margin=TRUE, out.width='50%'}
+multiplot_plate <- ggarrange(c7, c8, c5, c6,
+                           labels = c("A", "B", "C", "D"), ncol = 2, nrow = 2)
+multiplot_plate
+```
+
+# Microbiome 
+Processed data files from QIIME2 were imported in phyloseq and used for relative abundance analysis while alpha and beta diversity tables/matrices were downloaded from QIIME2. 
+
+## Abundance {.tabset .tabset-fade .tabset-pills}
+
+```{r, importing and processing tables}
+metadata <- read.table(file = "Metadata-all-08092200.txt", sep = "\t", header = T, row.names=1)
+
+otu <- read.table(file = "feature-table.tsv", sep = "\t", header = T, row.names = 1,
+                  skip = 1 , comment.char = "")
+
+taxonomy <- read.table(file = "taxonomy.tsv", sep = "\t", header = T , row.names = 1)
+```
+
+```{r, cleaning tax file}
+# clean the taxonomy, Greengenes format
+tax <- taxonomy %>%
+  select(Taxon) %>% 
+  separate(Taxon, c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"), "; ")
+
+tax.clean <- data.frame(row.names = row.names(tax),
+                        Kingdom = str_replace(tax[,1], "k__",""),
+                        Phylum = str_replace(tax[,2], "p__",""),
+                        Class = str_replace(tax[,3], "c__",""),
+                        Order = str_replace(tax[,4], "o__",""),
+                        Family = str_replace(tax[,5], "f__",""),
+                        Genus = str_replace(tax[,6], "g__",""),
+                        Species = str_replace(tax[,7], "s__",""),
+                        stringsAsFactors = FALSE)
+
+tax.clean[is.na(tax.clean)] <- ""
+tax.clean[tax.clean=="__"] <- ""
+
+for (i in 1:nrow(tax.clean)){
+  if (tax.clean[i,7] != ""){
+    tax.clean$Species[i] <- paste(tax.clean$Genus[i], tax.clean$Species[i], sep = " ")
+  } else if (tax.clean[i,2] == ""){
+    kingdom <- paste("Unclassified", tax.clean[i,1], sep = " ")
+    tax.clean[i, 2:7] <- kingdom
+  } else if (tax.clean[i,3] == ""){
+    phylum <- paste("Unclassified", tax.clean[i,2], sep = " ")
+    tax.clean[i, 3:7] <- phylum
+  } else if (tax.clean[i,4] == ""){
+    class <- paste("Unclassified", tax.clean[i,3], sep = " ")
+    tax.clean[i, 4:7] <- class
+  } else if (tax.clean[i,5] == ""){
+    order <- paste("Unclassified", tax.clean[i,4], sep = " ")
+    tax.clean[i, 5:7] <- order
+  } else if (tax.clean[i,6] == ""){
+    family <- paste("Unclassified", tax.clean[i,5], sep = " ")
+    tax.clean[i, 6:7] <- family
+  } else if (tax.clean[i,7] == ""){
+    tax.clean$Species[i] <- paste("Unclassified ",tax.clean$Genus[i], sep = " ")
+  }
+}
+```
+
+```{r}
+OTU = otu_table(as.matrix(otu), taxa_are_rows = TRUE)
+TAX = tax_table(as.matrix(tax.clean))
+SAMPLE <- sample_data(metadata)
+TREE = read_tree("tree.nwk")
+```
+
+```{r}
+set.seed(001)
+
+ps <- phyloseq(OTU, TAX, SAMPLE,TREE)
+
+ps.rarefied = rarefy_even_depth(ps, rngseed = 1, sample.size = 3900, replace = F)
+
+ps.rel = transform_sample_counts(ps, function(x) x/sum(x)*100)
+
+ps.raref.rel = transform_sample_counts(ps.rarefied, function(x) x/sum(x)*100)
+
+```
+
+### Relative Abundance - Composition analysis
+```{r}
+dataset <- microtable$new(sample_table = metadata, otu_table = otu, tax_table = tax.clean, phylo_tree = TREE)
+class(dataset)
+dataset
+
+dataset$filter_pollution(taxa = c("mitochondria", "chloroplast")) #removed 7 features
+dataset
+
+dataset$sample_table$preservation.media %<>% factor(., levels = c("uncultured", "Immediately cultured","Preservation-free", "Buffered Glycerol ", "Stuart", "Cary blair", "Protectant"))
+
+dataset$sample_table$group %<>% factor(., levels = c("Uncultured", "Unpreserved", "Preserved"))
+
+dataset$sample_table$growth.condition %<>% factor(., levels = c("uncultured", "liquid", "plate"))
+
+#seq numbers in each sample is 
+dataset$sample_sums() %>% range #4041 sequences in 162,863 samples
+
+#rarefy
+dataset$rarefy_samples(sample.size = 3900) #451 taxa were removed because of 0 abundance or no longer presence in any sample after random sampling
+
+#seq numbers in each sample after rarefying is 
+dataset$sample_sums() %>% range #3900 3900
+
+#save data
+dataset$save_table(dirpath = "basic_files", sep = ",")
+
+## Barplot with top 15 family taxa - family information summary **INCLUDED
+t1 <- trans_abund$new(dataset = dataset, taxrank = "Family", ntaxa = 15, groupmean = "group")
+t1$plot_bar(others_color = "grey70", xtext_keep = FALSE, use_alluvium = TRUE, clustering = TRUE, legend_text_italic = FALSE) +
+  theme_classic() + theme(legend.position = "right")
+
+###calculate taxa abundance 
+dataset$cal_abund()
+class(dataset$taxa_abund)
+###save calculation
+dataset$save_abund(dirpath = "taxa_abund")
+
+## Barplot with phylum information summary
+t1v2 <- trans_abund$new(dataset = dataset, taxrank = "Phylum", ntaxa = 10, groupmean = "group")
+t1v2$plot_bar(others_color = "grey70", xtext_keep = FALSE, use_alluvium = TRUE, clustering = TRUE, legend_text_italic = FALSE) +
+  theme_classic() + theme(legend.position = "right")
+
+# subset into liquid and plate samples for class information plot
+## liquid
+liquid_class <- clone(dataset)
+liquid_class$sample_table <- subset(liquid_class$sample_table, growth.condition != "plate")
+liquid_class$tidy_dataset()
+liquid_class$sample_table$preservation.media %<>% factor(., levels = c("uncultured", "Immediately cultured","Preservation-free", "Buffered Glycerol ", "Stuart", "Cary blair", "Protectant"))
+
+liquid_test1 <- trans_abund$new(dataset = liquid_class, taxrank = "Family", ntaxa = 15, groupmean = "preservation.media", delete_taxonomy_prefix = FALSE)
+
+liquid_test1$plot_bar(others_color = "grey70", xtext_keep = FALSE, use_alluvium = TRUE, clustering = TRUE,legend_text_italic = FALSE) +
+  theme_classic() + theme(legend.position = "right")
+
+liquid_test2 <- trans_abund$new(dataset = liquid_class, taxrank = "Family", ntaxa = 15) 
+                                
+liquid_test2$plot_bar(others_color = "grey70", xtext_keep = FALSE, facet = c("preservation.media","culture.condition"), delete_taxonomy_prefix = FALSE, legend_text_italic = FALSE)    
+
+###calculate taxa abundance by individual sample
+liquid_class$cal_abund()
+class(liquid_class$taxa_abund)
+###save calculation
+liquid_class$save_abund(dirpath = "liquid_taxa_abund")
+
+###calculate taxa abundance by preservation
+merged_liquid_class <- liquid_class$merge_samples("preservation.media")
+merged_liquid_class$cal_abund()
+class(merged_liquid_class$taxa_abund)
+###save calculation
+merged_liquid_class$save_abund(dirpath = "merged_liquid_taxa_abund")
+
+## plate
+plate_class <- clone(dataset)
+plate_class$sample_table <- subset(plate_class$sample_table, growth.condition != "liquid")
+plate_class$tidy_dataset()
+plate_class$sample_table$preservation.media %<>% factor(., levels = c("uncultured", "Immediately cultured","Preservation-free", "Buffered Glycerol ", "Stuart", "Cary blair", "Protectant"))
+
+plate_test1 <- trans_abund$new(dataset = plate_class, taxrank = "Family", ntaxa = 15, groupmean = "preservation.media", delete_taxonomy_prefix = FALSE)
+
+plate_test1$plot_bar(others_color = "grey70", xtext_keep = FALSE, use_alluvium = TRUE, clustering = TRUE,legend_text_italic = FALSE) +
+  theme_classic() + theme(legend.position = "right")
+
+plate_test2 <- trans_abund$new(dataset = plate_class, taxrank = "Family", ntaxa = 15) 
+                                
+plate_test2$plot_bar(others_color = "grey70", xtext_keep = FALSE, facet = c("preservation.media","culture.condition"), delete_taxonomy_prefix = FALSE, legend_text_italic = FALSE)  
+
+###calculate taxa abundance by sample
+plate_class$cal_abund()
+class(plate_class$taxa_abund)
+###save calculation
+plate_class$save_abund(dirpath = "plate_taxa_abund")
+
+###calculate taxa abundance by preservation
+merged_plate_class <- plate_class$merge_samples("preservation.media")
+merged_plate_class$cal_abund()
+class(merged_plate_class$taxa_abund)
+###save calculation
+merged_plate_class$save_abund(dirpath = "merged_plate_taxa_abund")
+
+```
+
+### Relative Abundance rarefied - Venn analysis
+```{r}
+#convert to rel abundance
+ps.rel <- microbiome::transform(ps.rarefied, "compositional")
+taxa_names(ps.rel)[1:5]
+ps.rel.f <- format_to_besthit(ps.rel)
+taxa_names(ps.rel.f)[1:5]
+
+#count number of samples per group using 'group3' = cultured vs original samples
+table(meta(ps.rel.f)$group3, useNA = "always")
+
+#make a list of treatment using variable 'group3' = cultured vs original samples
+treat_states <- unique(as.character(meta(ps.rel.f)$group3))
+print(treat_states)
+
+#loop for the identification of core taxa
+list_core <- c()
+
+for (n in treat_states){ # for each variable n in treat_states
+  #print(paste0("Identifying Core Taxa for ", n))
+  
+  ps.sub <- subset_samples(ps.rel.f, treat_states == n) # Choose sample from treatment, all but N/A
+  
+  core_m <- core_members(ps.sub, # ps.sub is phyloseq selected with only samples from g 
+                         detection = 0.001, # 0.001 in at least 90% samples 
+                         prevalence = 0.02)
+  print(paste0("No. of core taxa in ", n, " : ", length(core_m))) # print core taxa identified in each DiseaseState.
+  list_core[[n]] <- core_m # add to a list core taxa for each group.
+  #print(list_core)
+}
+
+mycols <- c("Original samples" ="#fca222", "Cultured"="#fff999")
+
+
+plot(venn(list_core),
+     fills = mycols)
+
+print(list_core)
+
+write.csv(list_core[["Original sample"]], file = "uncultured_original.csv")
+write.csv(list_core[["Cultured"]], file = "pres_cultured.csv")
+```
+
+
+
+### Relative Abundance - ANCOMBC2 analysis
+```{r}
+# ANCOMBC2
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install("ANCOMBC")
+
+library(ANCOMBC)
+
+## subset data from phyloseq object
+plate.abundance.ana <- subset_samples(ps, growth.condition != "liquid" & culture.condition != "Aerobic")
+sample_data(plate.abundance.ana)$preservation.media <- factor(sample_data(plate.abundance.ana)$preservation.media, levels = c("uncultured", "Immediately cultured","Preservation-free", "Buffered Glycerol ", "Stuart", "Cary blair", "Protectant"))
+
+plate.abundance.aer <- subset_samples(ps, growth.condition != "liquid" & culture.condition != "Anaerobic")
+sample_data(plate.abundance.aer)$preservation.media <- factor(sample_data(plate.abundance.aer)$preservation.media, levels = c("uncultured", "Immediately cultured","Preservation-free", "Buffered Glycerol ", "Stuart", "Cary blair", "Protectant"))
+
+
+liq.abundance <-subset_samples(ps, growth.condition != "plate")
+
+### Plate
+
+ANCOM.plate.ana <- ancombc2(data = plate.abundance.ana,
+                        tax_level = "Phylum",
+                        fix_formula = "preservation.media",
+                      p_adj_method = "BH",
+                      group = "preservation.media",
+                      verbose = TRUE)
+
+res_prim_plate_ana = ANCOM.plate.ana$res
+res_pair_plate_ana = ANCOM.plate.ana$res_pair
+
+res_prim_plate_ana = ANCOM.plate.ana$res %>%
+  mutate_if(is.numeric, function(x) round(x, 2))
+
+library(DT)
+res_prim_plate_ana %>%
+  datatable(caption = "ANCOM-BC2 Plate Anaerobic Phylum Primary Results")
+
+
+
+ANCOM.plate.aer <- ancombc2(data = plate.abundance.aer,
+                            tax_level = "Phylum",
+                            fix_formula = "preservation.media",
+                            p_adj_method = "BH",
+                            group = "preservation.media",
+                            verbose = TRUE)
+
+res_prim_plate_aer = ANCOM.plate.aer$res
+res_prim_plate_aer = ANCOM.plate.aer$res_pair
+
+res_prim_plate_aer = ANCOM.plate.aer$res %>%
+  mutate_if(is.numeric, function(x) round(x, 2))
+
+library(DT)
+res_prim_plate_aer %>%
+  datatable(caption = "ANCOM-BC2 Plate Aerobic Phylum Primary Results")
+
+#### Liauid
+sample_data(liq.abundance)$preservation.media <- factor(sample_data(liq.abundance)$preservation.media, levels = c("uncultured", "Immediately cultured","Preservation-free", "Buffered Glycerol ", "Stuart", "Cary blair", "Protectant"))
+
+ANCOM.liq <- ancombc2(data = liq.abundance,
+                      tax_level = "Phylum",
+                      fix_formula = "preservation.media",
+                      p_adj_method = "BH",
+                      group = "preservation.media",
+                      prv_cut = 0.1,
+                      verbose = TRUE)
+
+res_prim_liq = ANCOM.liq$res
+res_pair_liq = ANCOM.liq$res_pair
+
+res_prim_liq = ANCOM.liq$res %>%
+  mutate_if(is.numeric, function(x) round(x, 2))
+
+res_prim_liq %>%
+  datatable(caption = "ANCOM-BC2 Liquid Phylum Primary Results")
+
+```
+
+
+```{r, include=FALSE}
+# Import beta diversity distance matrices
+BC_matrix=read.table(file = "BC-distance-matrix.tsv",
+                     sep = '\t', header = TRUE)
+
+W_matrix=read.table(file = "W-distance-matrix.tsv",
+                    sep = '\t', header = TRUE)
+
+UNW_matrix=read.table(file = "UNW-distance-matrix.tsv",
+                      sep = '\t', header = TRUE)
+
+J_matrix=read.table(file = "J-distance-matrix.tsv",
+                    sep = '\t', header = TRUE)
+
+## Alpha diversity import files
+ObsFeat_matrix=read.table(file = "observed_features_matrix/alpha-diversity.tsv",
+                          sep = '\t', header = TRUE)
+
+FaithPD_matrix=read.table(file = "faith_pd_matrix/alpha-diversity.tsv",
+                          sep = '\t', header = FALSE)
+
+Shannon_matrix=read.table(file = "shannon_matrix/alpha-diversity.tsv",
+                          sep = '\t', header = TRUE)
+
+Evenness_matrix=read.table(file = "evenness_matrix/alpha-diversity.tsv",
+                           sep = '\t', header = TRUE)
+```
+
+
+##
+```{r, echo=FALSE}
+# Change sample names under first column to the row names
+BC_matrix=data.frame(BC_matrix[,-1], row.names=BC_matrix[,1])
+UNW_matrix=data.frame(UNW_matrix[,-1], row.names=UNW_matrix[,1])
+W_matrix=data.frame(W_matrix[,-1], row.names=W_matrix[,1])
+J_matrix=data.frame(J_matrix[,-1], row.names = J_matrix[,1])
+
+# Perform PCOA on distance matrix
+BCPCOA=cmdscale(BC_matrix, eig=T, k=2)
+UNWPCOA=cmdscale(UNW_matrix, eig=T, k=2)
+WPCOA=cmdscale(W_matrix, eig=T, k=2)
+JPCOA=cmdscale(J_matrix, eig=T, k=2)
+
+# Calculate estimate prop pf explained variance from eig values for each distance matrix using package metagMisc
+eig_perc(BCPCOA$eig, positive = T, plot=T) #24.95% and 15.36%
+eig_perc(UNWPCOA$eig, positive = T, plot=T) #27.41% and 14.59%
+eig_perc(WPCOA$eig, positive = T, plot=T) #30.65% and 22.41%
+eig_perc(JPCOA$eig, positive = T, plot=T) #9.36% and 8.22%
+
+# Import metadata and add PCOA points and alpha diversity files to data frame
+all_results <- read.delim("Metadata-all-080922.txt", header=T)
+all_results[,8:9]=BCPCOA$points
+all_results[,10:11]=UNWPCOA$points
+all_results[,12:13]=WPCOA$points
+all_results[,14:15]=JPCOA$points
+all_results[,16]=ObsFeat_matrix$observed_features
+all_results[,17]=FaithPD_matrix$V2
+all_results[,18]=Shannon_matrix$shannon_entropy
+all_results[,19]=Evenness_matrix$pielou_evenness
+
+## Rename all columns including the last four added
+colnames(all_results) = c('SampleID', 'Condition', 'Animal','Media', 'Preservation', 'Growth', 'Density', 'BC1','BC2', "UNW1", "UNW2", "W1", "W2", "J1", "J2", "Richness", "FaithPD", "Diversity", "Evenness" )
+
+all_results$`Condition` <- factor(all_results$`Condition`, levels = c("uncultured","Aerobic", "Anaerobic"))
+
+all_results$`Media` <- factor(all_results$`Media`, levels = c("uncultured", "MH", "BHI", "GMM"))
+
+all_results$`Preservation` <- factor(all_results$`Preservation`, levels = c( "Preservation-free", "Buffered Glycerol ", "Stuart", "Cary blair", "Protectant", "Immediately cultured", "Original Cecal Contents"))
+
+all_results$`Growth` <- factor(all_results$`Growth`, levels = c("uncultured" ,  "liquid", "plate"))
+```
+
+## Alpha diversity {.tabset .tabset-fade .tabset-pills}
+
+### Richness and Diversity - All samples 
+
+```{r}
+pal=latin_palette('badbunny2', 7)
+
+all_results$`Preservation` <- factor(all_results$`Preservation`, levels = c("Original Cecal Contents", "Immediately cultured", "Preservation-free", "Buffered Glycerol ", "Stuart", "Cary blair", "Protectant"))
+
+allmedia <- c("Original Cecal Samples", "Mueller Hinton", "Brain Heart Infusion", "Gut Microbiota Media")
+
+
+ASV_all <- ggplot(all_results,
+                  aes(x = Media, 
+                      y = Richness,
+                      col = Preservation)) + 
+  geom_boxplot(alpha=0.8) +
+  scale_x_discrete() +
+  ylim(0, NA) +  
+  scale_color_manual(values=beyonce_palette(79), labels=c("Original Cecal Samples", "Immediately-cultured", "Preservation-free", "Buffered Glycerol", "Stuart", "Cary-Blair", "Protectant")) + 
+  labs(x='Media', y='Number of Observed ASVs') +
+  facet_wrap(~Growth, ncol = 3, scales = "free") +
+  theme(legend.position ="top") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+ASV_all
+
+Shannon_all <- ggplot(all_results,
+                  aes(x = Media, 
+                      y = Diversity,
+                      col = Preservation)) + 
+  geom_boxplot(alpha=0.8) +
+  scale_x_discrete() +
+  ylim(0, NA) +  
+  scale_color_manual(values=beyonce_palette(79), labels=c("Original Cecal Samples", "Immediately-cultured","Preservation-free", "Buffered Glycerol", "Stuart", "Cary-Blair", "Protectant")) + 
+  labs(x='Media', y='Shannon Diversity Index') +
+  facet_wrap(~Growth, ncol = 3, scales = "free") +
+theme(legend.position ="top") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+Shannon_all
+
+## Multiplot - MS Supplemental figure 1
+Alpha_prelim_multiplot <- (ASV_all) / ( Shannon_all) + plot_annotation(tag_levels ="A") + plot_layout(guides="collect") & theme(legend.position='right')
+```
+
+### Richness - Number of ASVs in Preserved samples
+```{r}
+all_results$`Preservation` <- factor(all_results$`Preservation`, levels = c("Preservation-free", "Buffered Glycerol ", "Stuart", "Cary blair", "Protectant"))
+
+ASV_liqae_media <- ggplot(all_results  %>%
+                            filter(Growth == 'liquid' & Condition == "Aerobic" & Preservation != "Immediately cultured"),
+                          aes(x = Media, 
+                              y = Richness,
+                              col = Preservation)) + 
+  geom_boxplot(alpha=0.6)+  
+  scale_x_discrete(labels= media) +
+  scale_color_manual(values=pal,labels=c( "Preservation-free", "Buffered Glycerol", "Stuart", "Cary-Blair", "Protectant"), name="Preservation Solution:") + 
+  ylim(0, 500) + 
+  labs(x='Media', y='Number of Observed ASVs') +
+  theme(legend.position = "top") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+ASV_liqan_media <- ggplot(all_results  %>%
+                            filter(Growth == 'liquid' & Condition == "Anaerobic" & Preservation != "Immediately cultured"),
+                          aes(x = Media, 
+                              y = Richness,
+                              col = Preservation)) + 
+  geom_boxplot(alpha=0.6) +
+  scale_x_discrete(labels= media) +
+  scale_color_manual(values=pal,labels=c( "Preservation-free", "Buffered Glycerol", "Stuart", "Cary-Blair", "Protectant"), name="Preservation Solution:") + 
+  ylim(0, 300) + 
+  labs(x='Media', y='Number of Observed ASVs') +
+  theme(legend.position = "top") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+ASV_plae_media <- ggplot(all_results  %>%
+                           filter(Growth == 'plate' & Condition == "Aerobic" & Preservation != "Immediately cultured"),
+                         aes(x = Media, 
+                             y = Richness,
+                             col = Preservation)) + 
+  geom_boxplot(alpha=0.6) +
+  scale_x_discrete(labels= media) +
+  scale_color_manual(values=pal,labels=c( "Preservation-free", "Buffered Glycerol", "Stuart", "Cary-Blair", "Protectant"), name="Preservation Solution:")+ 
+  ylim(0, 30) +
+  labs(x='Media', y='Number of Observed ASVs') +
+  theme(legend.position = "top") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+
+ASV_plan_media <- ggplot(all_results  %>%
+                           filter(Growth == 'plate' & Condition == "Anaerobic" & Preservation != "Immediately cultured"),
+                         aes(x = Media, 
+                             y = Richness,
+                             col = Preservation)) + 
+  geom_boxplot(alpha=0.6) +
+  scale_x_discrete(labels= media) +
+  scale_color_manual(values=pal,labels=c( "Preservation-free", "Buffered Glycerol", "Stuart", "Cary-Blair", "Protectant"), name="Preservation Solution:") +
+  ylim(0, 30) +
+  labs(x='Media', y='Number of Observed ASVs') +
+  theme(legend.position = "top") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+## Multiplot - MS figure 5
+ASV_multiplot <- (ASV_liqan_media | ASV_liqae_media) / ( ASV_plan_media| ASV_plae_media) + plot_annotation(tag_levels ="A") + plot_layout(guides="collect") & theme(legend.position='top')
+```
+
+### Diversity - Shannon Diversity Index in Preserved samples
+```{r, echo=FALSE}
+Shannon_liqae_media <- ggplot(all_results  %>%
+                           filter(Growth == 'liquid' & Condition == "Aerobic" & Preservation != "Immediately cultured"),
+                         aes(x = Media, 
+                             y = Diversity,
+                             col = Preservation)) + 
+  geom_boxplot(alpha=0.6) +
+  scale_x_discrete(labels= media) +
+  scale_color_manual(values=pal,labels=c( "Preservation-free", "Buffered Glycerol", "Stuart", "Cary-Blair", "Protectant"), name="Preservation Solution:") + 
+  ylim(0, 10) +
+  labs(x='Media', y='Shannon Index') +
+  theme(legend.position = "none") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+Shannon_liqan_media <- ggplot(all_results  %>%
+                     filter(Growth == 'liquid' & Condition == "Anaerobic" & Preservation != "Immediately cultured"),
+                   aes(x = Media, 
+                       y = Diversity,
+                       col = Preservation)) + 
+  geom_boxplot(alpha=0.6) +
+  scale_x_discrete(labels= media) +
+  scale_color_manual(values=pal,labels=c( "Preservation-free", "Buffered Glycerol", "Stuart", "Cary-Blair", "Protectant"), name="Preservation Solution:") +  
+  ylim(0, 10) +
+  labs(x='Media', y='Shannon Index') +
+  theme(legend.position = "none") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+Shannon_plae_media <- ggplot(all_results  %>%
+                     filter(Growth == 'plate' & Condition == "Aerobic" & Preservation != "Immediately cultured"),
+                   aes(x = Media, 
+                       y = Diversity,
+                       col = Preservation)) + 
+  geom_boxplot(alpha=0.6) +
+  scale_x_discrete(labels= media) +
+  scale_color_manual(values=pal,labels=c( "Preservation-free", "Buffered Glycerol", "Stuart", "Cary-Blair", "Protectant"), name="Preservation Solution:") +  
+  ylim(0, 4) +
+  labs(x='Media', y='Shannon Index') +
+  theme(legend.position = "none") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+Shannon_plan_media <- ggplot(all_results  %>%
+                     filter(Growth == 'plate' & Condition == "Anaerobic" & Preservation != "Immediately cultured"),
+                   aes(x = Media, 
+                       y = Diversity,
+                       col = Preservation)) + 
+  geom_boxplot(alpha=0.6) +
+  scale_x_discrete(labels= media) +
+  scale_color_manual(values=pal,labels=c( "Preservation-free", "Buffered Glycerol", "Stuart", "Cary-Blair", "Protectant"), name="Preservation Solution:") +  
+  ylim(0, 4) +
+  labs(x='Media', y='Shannon Index') +
+  theme(legend.position = "none") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+# multiplot
+Shannon_multiplot <- (Shannon_liqan_media | Shannon_liqae_media) / ( Shannon_plan_media| Shannon_plae_media) + plot_annotation(tag_levels ="A") + plot_layout(guides="collect") & theme(legend.position='top')
+```
+
+### Diversity - Faith's PD
+```{r, echo=FALSE}
+FaithPD_liqae <- ggplot(all_results  %>%
+                    filter(Growth == 'liquid' & Condition == "Aerobic" & Preservation != "Immediately cultured"),
+                  aes(x = Preservation, 
+                      y = FaithPD,
+                      fill = Preservation)) + 
+  geom_boxplot(alpha=0.6) +
+  geom_jitter() +
+  scale_fill_manual(values=beyonce_palette(79)) + 
+  theme(legend.position = "bottom") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+FaithPD_liqan <- ggplot(all_results  %>%
+                    filter(Growth == 'liquid' & Condition == "Anaerobic" & Preservation != "Immediately cultured"),
+                  aes(x = Preservation, 
+                      y = FaithPD,
+                      fill = Preservation)) + 
+  geom_boxplot(alpha=0.6) +
+  geom_jitter() +
+  scale_fill_manual(values=beyonce_palette(79)) + 
+  theme(legend.position = "bottom") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+FaithPD_plan <- ggplot(all_results  %>%
+                    filter(Growth == 'plate' & Condition == "Anaerobic" & Preservation != "Immediately cultured"),
+                  aes(x = Preservation, 
+                      y = FaithPD,
+                      fill = Preservation)) + 
+  geom_boxplot(alpha=0.6) +
+  geom_jitter() +
+  scale_fill_manual(values=beyonce_palette(79)) + 
+  theme(legend.position = "bottom") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+FaithPD_plae <- ggplot(all_results  %>%
+                    filter(Growth == 'plate' & Condition == "Aerobic" & Preservation != "Immediately cultured"),
+                  aes(x = Preservation, 
+                      y = FaithPD,
+                      fill = Preservation)) + 
+  geom_boxplot(alpha=0.6) +
+  geom_jitter() +
+  scale_fill_manual(values=beyonce_palette(79)) + 
+  theme(legend.position = "bottom") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+
+```
+
+### Statistics
+```{r}
+## Anova in ASV and GLMM
+summary(all_results  %>%
+          filter(Growth == 'liquid' & Condition == "Aerobic" ))
+
+aggregate(Richness ~ Preservation, 
+          data=all_results  %>%
+            filter(Growth == 'liquid' & Condition == "Aerobic" ),
+          function(x) round(c(mean=mean(x), sd=sd(x)), 2))
+
+res_aov_liqae_richness <- aov(Richness ~ Preservation, 
+               data=all_results  %>%
+                 filter(Growth == 'liquid' & Condition == "Aerobic"))  
+
+summary(res_aov_liqae_richness)
+
+kruskal.test(Richness ~ Preservation, 
+             data=all_results  %>%
+               filter(Growth == 'liquid' & Condition == "Aerobic"))  
+
+
+
+model_liqae = lmer(Richness ~ Preservation * Media + (1|Animal),
+                   data=all_results  %>%
+                     filter(Growth == 'liquid' & Condition == "Aerobic" & Preservation != "Fresh" & Preservation != "uncultured"), 
+                   REML=TRUE)
+anova(model_liqae)
+summary(model_liqae)
+
+
+model_liqan = lmer(Richness ~ Preservation * Media + (1|Animal),
+                   data=all_results  %>%
+                     filter(Growth == 'liquid' & Condition == "Anaerobic" & Preservation != "Fresh" & Preservation != "uncultured"), 
+                   REML=TRUE)
+anova(model_liqan)
+summary(model_liqan)
+
+P4_P <- dunnTest(Richness ~ Preservation, 
+              data=all_results  %>%
+                     filter(Growth == 'liquid' & Condition == "Anaerobic" & Preservation != "Fresh" & Preservation != "uncultured"), method="holm") # require the FSA package     
+
+P4_P
+
+
+model_plae = lmer(Richness ~ Preservation * Media + (1|Animal),
+                  data=all_results  %>%
+                    filter(Growth == 'plate' & Condition == "Aerobic" & Preservation != "Fresh" & Preservation != "uncultured"), 
+                  REML=TRUE)
+anova(model_plae)
+summary(model_plae)
+
+P5_P <- dunnTest(Richness ~ Preservation, 
+              data=all_results  %>%
+                     filter(Growth == 'plate' & Condition == "Aerobic" & Preservation != "Fresh" & Preservation != "uncultured"), method="holm") # require the FSA package     
+
+P5_P
+
+P5_M <- dunnTest(Richness ~ Media, 
+              data=all_results  %>%
+                     filter(Growth == 'plate' & Condition == "Aerobic" & Preservation != "Fresh" & Preservation != "uncultured"), method="holm") # require the FSA package     
+
+P5_M
+
+model_plan = lmer(Richness ~ Preservation * Media + (1|Animal),
+                  data=all_results  %>%
+                    filter(Growth == 'plate' & Condition == "Anaerobic" & Preservation != "Fresh" & Preservation != "uncultured"), 
+                  REML=TRUE)
+anova(model_plan)
+summary(model_plan)
+
+
+
+P6_M <- dunnTest(Richness ~ Media, 
+              data=all_results  %>%
+                     filter(Growth == 'plate' & Condition == "Anaerobic" & Preservation != "Fresh" & Preservation != "uncultured"), method="holm") # require the FSA package     
+
+P6_M
+```
+
+## Beta diversity {.tabset .tabset-fade .tabset-pills}
+
+```{r}
+## Adonis metadata filtering
+liqae <- all_results %>% 
+  filter(Condition != "Anaerobic" & Growth != "plate")
+
+liqana <- all_results %>% 
+  filter(Condition != "Aerobic" & Growth != "plate")
+
+plateaer <- all_results %>% 
+  filter(Condition != "Anaerobic" & Growth != "liquid")
+
+plateana <- all_results %>% 
+  filter(Condition != "Aerobic" & Growth != "liquid")
+```
+
+### Weighted Relative Abundance - Weighted UniFrac
+
+```{r}
+all_results$Growth <- factor(all_results$Growth, levels = c( "liquid", "plate", "uncultured"))
+
+Growth_Weight <- ggplot(all_results, aes(x=W1, y=W2, col=Growth)) +
+  geom_point(size=3.5, alpha=0.5) +
+  scale_color_manual(values=beyonce_palette(72),labels=c("Liquid", "Plate", "Original Cecal Sample"), name="Growth Condition") + 
+  labs(x='Weighted Unifrac PCoA 1 (56%)', y='Weighted Unifrac PCoA 2 (15.5%)') +
+  theme(legend.position = "right") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+```
+
+#### Weighted Relative Abundance - Weighted UniFrac
+```{r, echo=FALSE}
+##import new trimmed matrixes
+W_matrix_liqaer=read.table(file = "/Users/karenperalta/Library/CloudStorage/OneDrive-UniversityofPittsburgh/Grad School/Projects/Preservation Groundhog Project/DATA - Project/qiime2-groundhog-liquid/W-distance-matrix-liqaer.tsv",
+                           sep = '\t', header = TRUE)
+W_matrix_liqana=read.table(file = "/Users/karenperalta/Library/CloudStorage/OneDrive-UniversityofPittsburgh/Grad School/Projects/Preservation Groundhog Project/DATA - Project/qiime2-groundhog-liquid/W-distance-matrix-liqana.tsv",
+                           sep = '\t', header = TRUE)
+W_matrix_plateaer=read.table(file = "/Users/karenperalta/Library/CloudStorage/OneDrive-UniversityofPittsburgh/Grad School/Projects/Preservation Groundhog Project/DATA - Project/qiime2-groundhog-liquid/W-distance-matrix-plateaer.tsv",
+                             sep = '\t', header = TRUE)
+W_matrix_plateana=read.table(file = "/Users/karenperalta/Library/CloudStorage/OneDrive-UniversityofPittsburgh/Grad School/Projects/Preservation Groundhog Project/DATA - Project/qiime2-groundhog-liquid/W-distance-matrix-plateana.tsv",
+                             sep = '\t', header = TRUE)
+
+## Change sample names under first column to the row names
+W_matrix_liqaer=data.frame(W_matrix_liqaer[,-1], row.names=W_matrix_liqaer[,1])
+W_matrix_liqana=data.frame(W_matrix_liqana[,-1], row.names=W_matrix_liqana[,1])
+W_matrix_plateaer=data.frame(W_matrix_plateaer[,-1], row.names=W_matrix_plateaer[,1])
+W_matrix_plateana=data.frame(W_matrix_plateana[,-1], row.names=W_matrix_plateana[,1])
+
+## Perform PCOA on distance matrix
+WPCOA_liqaer=cmdscale(W_matrix_liqaer, eig=T, k=2)
+WPCOA_liqana=cmdscale(W_matrix_liqana, eig=T, k=2)
+WPCOA_plateaer=cmdscale(W_matrix_plateaer, eig=T, k=2)
+WPCOA_plateana=cmdscale(W_matrix_plateana, eig=T, k=2)
+
+eig_perc(WPCOA_liqaer$eig, positive = T, plot=T) #56% and 15.58%
+eig_perc(WPCOA_liqana$eig, positive = T, plot=T) #29.39% and 26.51%
+eig_perc(WPCOA_plateaer$eig, positive = T, plot=T) #54.77% and 17.68%
+eig_perc(WPCOA_plateana$eig, positive = T, plot=T) #44.74% and 20.60%
+```
+
+```{r}
+## adonis for liqaer
+adonisfull_liqaer <- adonis2(W_matrix_liqaer ~ Animal + Preservation + Media + Animal*Preservation +  Animal*Media + Preservation*Media, liqae, by="terms", permutations = 10000, warnings=FALSE, na.action=na.exclude)
+print(adonisfull_liqaer)
+
+adonisshort_liqaer <- adonis2(W_matrix_liqaer ~ Animal + Preservation + Media + Animal*Preservation, liqae, by="terms", permutations = 10000, warnings=FALSE, na.action=na.exclude)
+print(adonisshort_liqaer)
+
+## adonis for liqana
+adonisfull_liqana <- adonis2(W_matrix_liqana ~ Animal + Preservation + Media + Animal*Preservation + Animal*Media + Preservation*Media, liqana, by="terms", permutations = 10000, warnings=FALSE, na.action=na.exclude)
+print(adonisfull_liqana)
+
+adonisshort_liqana <- adonis2(W_matrix_liqana ~ Animal + Preservation + Media + Animal*Preservation, liqana, by="terms", permutations = 10000, warnings=FALSE, na.action=na.exclude)
+print(adonisshort_liqana)
+
+## adonis for plateaer
+adonisfull_plateaer <- adonis2(W_matrix_plateaer ~ Animal + Preservation + Media + Animal*Preservation + Animal*Media + Preservation*Media, plateaer, by="terms", permutations = 10000, warnings=FALSE, na.action=na.exclude)
+print(adonisfull_plateaer)
+
+adonisshort_plateaer <- adonis2(W_matrix_plateaer ~ Animal + Preservation + Media + Animal*Preservation + Animal*Media , plateaer, by="terms", permutations = 10000, warnings=FALSE, na.action=na.exclude)
+print(adonisshort_plateaer)
+
+## adonis for plateana
+adonisfull_plateana <- adonis2(W_matrix_plateana ~ Animal + Preservation + Media + Animal*Preservation + Animal*Media + Preservation*Media, plateana, by="terms", permutations = 10000, warnings=FALSE, na.action=na.exclude)
+print(adonisfull_plateana)
+
+adonisshort_plateana <- adonis2(W_matrix_plateana ~ Animal + Preservation + Media + Animal*Preservation  + Animal*Media , plateana, by="terms", permutations = 10000, warnings=FALSE, na.action=na.exclude)
+print(adonisshort_plateana)
+```
+
+```{r}
+## plots
+all_results$Preservation <- factor(all_results$Preservation, levels = c( "Original Cecal Contents", "Preservation-free", "Buffered Glycerol ", "Stuart", "Cary blair","Protectant", "Immediately cultured"))
+pal=latin_palette('calle13',7 )
+
+aer_liq <- ggplot(all_results  %>%
+                    filter(Condition != 'Anaerobic' & Growth != 'plate'), aes(x=W1, y=W2, col=(Preservation), shape=(Animal))) +
+  geom_point(size=3.5) +
+  scale_color_manual(values=pal, name="Preservation Solutions", labels=c("Original Cecal Contents", "Preservation-free", "Buffered Glycerol ", "Stuart", "Cary Blair", "Protectant", "Immediately cultured")) + 
+  scale_shape_manual(values=c(15,6,17), name="Animal", label=c("Groundhog 1", "Groundhog 2", "Groundhog 3")) +
+  labs(x='Weighted Unifrac PCoA 1 (56%)', y='Weighted Unifrac PCoA 2 (15.5%)') +
+  ggtitle("Liquid Aerobic Condition") +
+  theme(legend.position = "none") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+
+
+aer_plate <- ggplot(all_results  %>%
+                      filter(Condition != 'Anaerobic' & Growth != 'liquid'), aes(x=W1, y=W2, col=(Preservation), shape=(Animal))) +
+  geom_point(size=3.5) +
+  scale_color_manual(values=pal, name="Preservation Solutions", labels=c("Original Cecal Contents", "Preservation-free", "Buffered Glycerol ", "Stuart", "Cary Blair", "Protectant", "Immediately cultured")) + 
+  scale_shape_manual(values=c(15,6,17), name="Animal", label=c("Groundhog 1", "Groundhog 2", "Groundhog 3")) +
+  labs(x='Weighted Unifrac PCoA 1 (54.77%)', y='Weighted Unifrac PCoA 2 (17.68%)') +
+  ggtitle("Plate Aerobic Condition") +
+  theme(legend.position = c(0.85, 0.35)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+
+ana_liq <- ggplot(all_results  %>%
+                    filter(Condition != 'Aerobic' & Growth != 'plate'), aes(x=W1, y=W2, col=(Preservation), shape=(Animal))) +
+  geom_point(size=3.5) +
+  scale_color_manual(values=pal, name="Preservation Solutions", labels=c("Original Cecal Contents", "Preservation-free", "Buffered Glycerol ", "Stuart", "Cary Blair", "Protectant", "Immediately cultured")) + 
+  scale_shape_manual(values=c(15,6,17), name="Animal", label=c("Groundhog 1", "Groundhog 2", "Groundhog 3")) +
+  labs(x='Weighted Unifrac PCoA 1 (29.39%)', y='Weighted Unifrac PCoA 2 (26.51%)') +
+  ggtitle("Liquid Anaerobic Condition") +
+  theme(legend.position = "none") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+
+ana_plate <- ggplot(all_results  %>%
+                      filter(Condition != 'Aerobic' & Growth != 'liquid'), aes(x=W1, y=W2, col=(Preservation), shape=(Animal))) +
+  geom_point(size=3.5) +
+  scale_color_manual(values=pal, name="Preservation Solutions", labels=c("Original Cecal Contents", "Preservation-free", "Buffered Glycerol ", "Stuart", "Cary Blair", "Protectant", "Immediately cultured")) + 
+  scale_shape_manual(values=c(15,6,17), name="Animal", label=c("Groundhog 1", "Groundhog 2", "Groundhog 3")) +
+  labs(x='Weighted Unifrac PCoA 1 (44.74%)', y='Weighted Unifrac PCoA 2 (20.60%)') +
+  ggtitle("Plate Anaerobic Condition") +
+  theme(legend.position = "none") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+
+#multiplot color
+multiplot_weighted <- ggarrange(print(ana_liq), print(aer_liq), print(ana_plate), print(aer_plate), 
+                                labels = c("A", "B", "C", "D"), ncol = 2, nrow = 2)
+multiplot_weighted
+
+```
+
+### Pairwise analysis - Weighted UniFrac
+```{r}
+data <- read.delim("All Samples - Pairwise Distances /Weighted_uncultured_all_preservation.tsv", header = T)
+
+# Organize order of factors
+data$`group` <- factor(data$`group`,  levels = c( "Immediately cultured", "Preservation-free", "Buffered Glycerol", "Stuart", "Cary blair", "Protectant"))
+
+# Violin Plot with jitters
+violin_pairwise_preservation <- data%>%
+  ggplot( aes(x=group, y=distance, fill=group)) +
+  geom_violin(width=1) +
+  geom_boxplot(width=0.3, color="grey", alpha=0.2) +
+  scale_fill_manual(values=beyonce_palette(79)) +
+  theme(legend.position="none",
+    plot.title = element_text(size=15)) +
+  labs(subtitle = "Weighted unifrac pairwise distances of preserved then cultured \nsamples to original cecal samples") +
+  xlab("Preservation solutions") + 
+  ylab("Distances to Original Cecal Samples") + 
+  theme(axis.title.x = element_text(hjust = 0.5)) +
+  theme(axis.title.y = element_text(hjust = 0.5)) +
+  theme(axis.title.x =  element_text(size = 12)) +
+  theme(axis.title.y =  element_text(size = 12)) +
+  theme(legend.title = element_blank()) + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+#growth condition
+# Import data
+data2 <- read.delim("All Samples - Pairwise Distances /Weighted_uncultured_all_culturecondition.txt", header = T)
+
+# Organize order of factors
+data2$`group` <- factor(data2$`group`, levels = c( "liquid", "plate"))
+
+# Violin Plot with jitters
+violin_pairwise_culture <- data2%>%
+  ggplot( aes(x=group, y=distance, fill=group)) +
+  geom_violin(width=1) +
+  geom_boxplot(width=0.3, color="black", alpha=0.2) +
+  scale_fill_manual(values=beyonce_palette(72)) + 
+  theme(
+    legend.position="none",
+    plot.title = element_text(size=15)
+  ) +
+   labs(subtitle = "Weighted unifrac pairwise distances of Liquid and Plate cultures \nto original cecal samples") +
+  xlab("Preservation solutions") + 
+  ylab("Distances to Original Cecal Samples") + 
+  theme(axis.title.x = element_text(hjust = 0.5)) +
+  theme(axis.title.y = element_text(hjust = 0.5)) +
+  theme(axis.title.x =  element_text(size = 12)) +
+  theme(axis.title.y =  element_text(size = 12)) +
+  theme(legend.title = element_blank()) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+```
+
+### Unweighted Relative Abundance - Unweighted UniFrac
+```{r, echo=FALSE}
+## import new trimmed matrixes
+UNW_matrix_liqaer=read.table(file = "/Users/karenperalta/Library/CloudStorage/OneDrive-UniversityofPittsburgh/Grad School/Projects/Preservation Groundhog Project/DATA - Project/qiime2-groundhog-liquid/UNW-distance-matrix-liqaer.tsv", 
+                             sep = '\t', header = TRUE)
+UNW_matrix_liqana=read.table(file = "/Users/karenperalta/Library/CloudStorage/OneDrive-UniversityofPittsburgh/Grad School/Projects/Preservation Groundhog Project/DATA - Project/qiime2-groundhog-liquid/UNW-distance-matrix-liqana.tsv",
+                             sep = '\t', header = TRUE)
+UNW_matrix_plateaer=read.table(file = "/Users/karenperalta/Library/CloudStorage/OneDrive-UniversityofPittsburgh/Grad School/Projects/Preservation Groundhog Project/DATA - Project/qiime2-groundhog-liquid/UNW-distance-matrix-plateaer.tsv",
+                               sep = '\t', header = TRUE)
+UNW_matrix_plateana=read.table(file = "/Users/karenperalta/Library/CloudStorage/OneDrive-UniversityofPittsburgh/Grad School/Projects/Preservation Groundhog Project/DATA - Project/qiime2-groundhog-liquid/UNW-distance-matrix-plateana.tsv",
+                               sep = '\t', header = TRUE)
+
+## Change sample names under first column to the row names
+UNW_matrix_liqaer=data.frame(UNW_matrix_liqaer[,-1], row.names=UNW_matrix_liqaer[,1])
+UNW_matrix_liqana=data.frame(UNW_matrix_liqana[,-1], row.names=UNW_matrix_liqana[,1])
+UNW_matrix_plateaer=data.frame(UNW_matrix_plateaer[,-1], row.names=UNW_matrix_plateaer[,1])
+UNW_matrix_plateana=data.frame(UNW_matrix_plateana[,-1], row.names=UNW_matrix_plateana[,1])
+
+## Perform PCOA on distance matrix
+UNWPCOA_liqaer=cmdscale(UNW_matrix_liqaer, eig=T, k=2)
+UNWPCOA_liqana=cmdscale(UNW_matrix_liqana, eig=T, k=2)
+UNWPCOA_plateaer=cmdscale(UNW_matrix_plateaer, eig=T, k=2)
+UNWPCOA_plateana=cmdscale(UNW_matrix_plateana, eig=T, k=2)
+
+eig_perc(UNWPCOA_liqaer$eig, positive = T, plot=T) #36.85% and 11.10%
+eig_perc(UNWPCOA_liqana$eig, positive = T, plot=T) #20.13% and 10.40%
+eig_perc(UNWPCOA_plateaer$eig, positive = T, plot=T) #25.12% and 14.69%
+eig_perc(UNWPCOA_plateana$eig, positive = T, plot=T) #34.46% and 19.37%
+
+## UNW adonis for liqaer
+set.seed(7)
+UNW_adonisshort_liqaer <-adonis2(UNW_matrix_liqaer ~ Animal + Preservation + Media + Animal*Preservation, liqae, by="terms", permutations = 10000, warnings=FALSE, na.action=na.exclude)
+print(UNW_adonisshort_liqaer)
+
+## UNW adonis for liqana
+UNW_adonisshort_liqana <- adonis2(UNW_matrix_liqana ~ Animal + Preservation + Media + Animal*Preservation, liqana, by="terms", permutations = 10000, warnings=FALSE, na.action=na.exclude)
+print(UNW_adonisshort_liqana)
+
+## UNW adonis for plateaer
+UNW_adonisshort_plateaer <- adonis2(UNW_matrix_plateaer ~ Animal + Preservation + Media + Animal*Preservation , plateaer, by="terms", permutations = 10000, warnings=FALSE, na.action=na.exclude)
+print(UNW_adonisshort_plateaer)
+
+## UNW adonis for plateana
+UNW_adonisshort_plateana <- adonis2(UNW_matrix_plateana ~ Animal + Preservation + Media + Animal*Preservation, plateana, by="terms", permutations = 10000, warnings=FALSE, na.action=na.exclude)
+print(UNW_adonisshort_plateana)
+
+## plots
+pal=latin_palette('calle13',7 )
+
+unw_ana_liq <- ggplot(all_results  %>%
+                        filter(Condition != 'Aerobic' & Growth != 'plate'), aes(x=UNW1, y=UNW2, col=(Preservation), shape=(Animal))) +
+  geom_point(size=3.5) +
+  scale_color_manual(values=pal, name="Preservation Solutions", labels=c("Original Cecal Contents", "Preservation-free", "Buffered Glycerol ", "Stuart", "Cary Blair", "Protectant", "Immediately cultured")) + 
+  scale_shape_manual(values=c(15,6, 17), name="Animal", label=c("Groundhog 1", "Groundhog 2", "Groundhog 3")) +
+  labs(x='Unweighted Unifrac PCoA 1 (20.13%)', y='Unweighted Unifrac PCoA 2 (10.41%)') +
+  ggtitle("Liquid Anaerobic Condition") +
+  theme(legend.position = "none") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+
+unw_aer_liq <- ggplot(all_results  %>%
+                        filter(Condition != 'Anaerobic' & Growth != 'plate'), aes(x=UNW1, y=UNW2, col=(Preservation), shape=(Animal))) +
+  geom_point(size=3.5) +
+  scale_color_manual(values=pal, name="Preservation Solutions", labels=c("Original Cecal Contents", "Preservation-free", "Buffered Glycerol ", "Stuart", "Cary Blair", "Protectant", "Immediately cultured")) + 
+  scale_shape_manual(values=c(15,6, 17), name="Animal", label=c("Groundhog 1", "Groundhog 2", "Groundhog 3")) +
+  labs(x='Unweighted Unifrac PCoA 1 (36.85%)', y='Unweighted Unifrac PCoA 2 (11.10%)') +
+  ggtitle("Liquid Aerobic Condition") +
+  theme(legend.position = "none") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+unw_ana_plate <- ggplot(all_results  %>%
+                          filter(Condition != 'Aerobic' & Growth != 'liquid'), aes(x=UNW1, y=UNW2, col=(Preservation), shape=(Animal))) +
+  geom_point(size=3.5) +
+  scale_color_manual(values=pal, name="Preservation Solutions", labels=c("Original Cecal Contents", "Preservation-free", "Buffered Glycerol ", "Stuart", "Cary Blair", "Protectant", "Immediately cultured")) + 
+  scale_shape_manual(values=c(15,6, 17), name="Animal", label=c("Groundhog 1", "Groundhog 2", "Groundhog 3")) +
+  labs(x='Unweighted Unifrac PCoA 1 (34.46%)', y='Unweighted Unifrac PCoA 2 (19.37%)') +
+  ggtitle("Plate Anaerobic Condition") +
+  theme(legend.position = "none") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+
+unw_aer_plate <- ggplot(all_results  %>%
+                          filter(Condition != 'Anaerobic' & Growth != 'liquid'), aes(x=UNW1, y=UNW2, col=(Preservation), shape=(Animal))) +
+  geom_point(size=3.5) +
+  scale_color_manual(values=pal, name="Preservation Solutions", labels=c("Original Cecal Contents", "Preservation-free", "Buffered Glycerol ", "Stuart", "Cary Blair", "Protectant", "Immediately cultured")) + 
+  scale_shape_manual(values=c(15,6, 17), name="Animal", label=c("Groundhog 1", "Groundhog 2", "Groundhog 3")) +
+  labs(x='Unweighted Unifrac PCoA 1 (25.12%)', y='Unweighted Unifrac PCoA 2 (14.69%)') +
+  ggtitle("Plate Aerobic Condition") +
+  theme(legend.position = c(0.85, 0.6)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+
+#multiplot color
+multiplot_unweighted <- ggarrange(print(unw_ana_liq), print(unw_aer_liq), print(unw_ana_plate), print(unw_aer_plate), 
+                                  labels = c("A", "B", "C", "D"), ncol = 2, nrow = 2)
+multiplot_unweighted
+
+#unweighted growth
+all_results$Growth <- factor(all_results$Growth, levels = c( "liquid", "plate", "uncultured"))
+
+Growth_Unweighted <- ggplot(all_results, aes(x=UNW1, y=UNW2, col=(Growth))) +
+  geom_point(size=3.5, alpha=0.5) +
+  scale_color_manual(values=beyonce_palette(72),labels=c("Liquid", "Plate", "Original Cecal Sample"), name="Condition") + 
+  labs(x='Unweighted Unifrac PCoA 1 (27.41%)', y='Unweighted Unifrac PCoA 2 (14.59%)') +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black")) 
+
+```
+
+### Pairwise analysis - Unweighted Unifrac
+```{r}
+ggplot(all_results, aes(x=UNW1, y=UNW2, col=Growth)) +
+  geom_point(size=3.5, alpha=0.5) +
+  scale_color_manual(values=beyonce_palette(72),labels=c("Original Cecal Sample", "Liquid", "Plate"), name="Growth Condition") + 
+  theme(
+    plot.title = element_text(size=15)
+  ) +
+  labs(x='Unweighted Unifrac PCoA 1 (27.41%)', y='Unweighted Unifrac PCoA 2 (14.59%)') +
+  labs(title = "Weighted UniFrac distances", subtitle = "Culture Growth Condition") +
+  theme(axis.title.x = element_text(hjust = 0.5)) +
+  theme(axis.title.y = element_text(hjust = 0.5)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black")) 
+
+
+```
+
