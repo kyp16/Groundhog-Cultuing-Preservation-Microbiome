@@ -1,0 +1,46 @@
+media	preservation	group	deltacultureconc
+BHI	Buffered glycerol	gh1	3413333334
+BHI	Buffered glycerol	gh2	3058666666
+BHI	Buffered glycerol	gh3	3149333333
+GMM	Buffered glycerol	gh1	3994666667
+GMM	Buffered glycerol	gh2	3714666666
+GMM	Buffered glycerol	gh3	3096000000
+MH	Buffered glycerol	gh1	3306666667
+MH	Buffered glycerol	gh2	1685333334
+MH	Buffered glycerol	gh3	1506666667
+BHI	Cary blair	gh1	2861333334
+BHI	Cary blair	gh2	2880000000
+BHI	Cary blair	gh3	2888000000
+GMM	Cary blair	gh1	3360000000
+GMM	Cary blair	gh2	1826666667
+GMM	Cary blair	gh3	2973333333
+MH	Cary blair	gh1	2042666667
+MH	Cary blair	gh2	1970666667
+MH	Cary blair	gh3	1978666667
+BHI	Preservation-free	gh1	2885333333
+BHI	Preservation-free	gh2	1949333334
+BHI	Preservation-free	gh3	3146666667
+GMM	Preservation-free	gh1	3341333333
+GMM	Preservation-free	gh2	1733333333
+GMM	Preservation-free	gh3	2925333333
+MH	Preservation-free	gh1	1890666666
+MH	Preservation-free	gh2	1829333333
+MH	Preservation-free	gh3	2114666667
+BHI	Protectant	gh1	2352000000
+BHI	Protectant	gh2	2768000000
+BHI	Protectant	gh3	2960000000
+GMM	Protectant	gh1	3885333334
+GMM	Protectant	gh2	1760000000
+GMM	Protectant	gh3	3029333333
+MH	Protectant	gh1	2080000000
+MH	Protectant	gh2	1738666666
+MH	Protectant	gh3	1952000000
+BHI	Stuart	gh1	2728000000
+BHI	Stuart	gh2	2618666667
+BHI	Stuart	gh3	3108000000
+GMM	Stuart	gh1	3386666667
+GMM	Stuart	gh2	3509333333
+GMM	Stuart	gh3	3166666667
+MH	Stuart	gh1	2152000000
+MH	Stuart	gh2	1168000000
+MH	Stuart	gh3	1621333334

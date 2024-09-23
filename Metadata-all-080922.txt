@@ -1,0 +1,231 @@
+sample.id	culture.condition	animal	culture.media	preservation.media	growth.condition	cfuml.conc
+Kohl.Grounhog.KPM.R001	Aerobic	GH 1	MH	Immediately cultured	plate	655555556
+Kohl.Grounhog.KPM.R002	Aerobic	GH 1	MH	Immediately cultured	plate	655555556
+Kohl.Grounhog.KPM.R003	Aerobic	GH 1	GMM	Immediately cultured	plate	1283333333
+Kohl.Grounhog.KPM.R004	Aerobic	GH 1	GMM	Immediately cultured	plate	1516666667
+Kohl.Grounhog.KPM.R005	Aerobic	GH 1	GMM	Immediately cultured	plate	157222222
+Kohl.Grounhog.KPM.R006	Aerobic	GH 1	GMM	Immediately cultured	plate	1572222222
+Kohl.Grounhog.KPM.R007	Aerobic	GH 1	MH	Immediately cultured	plate	158333333
+Kohl.Grounhog.KPM.R008	Aerobic	GH 1	MH	Immediately cultured	plate	414444444
+Kohl.Grounhog.KPM.R009	Aerobic	GH 1	MH	Immediately cultured	plate	467777778
+Kohl.Grounhog.KPM.R010	Anaerobic	GH 2	BHI	Immediately cultured	plate	2206250
+Kohl.Grounhog.KPM.R011	Anaerobic	GH 2	MH	Immediately cultured	plate	224375000
+Kohl.Grounhog.KPM.R012	Anaerobic	GH 2	MH	Immediately cultured	plate	224375000
+Kohl.Grounhog.KPM.R013	Anaerobic	GH 2	BHI	Immediately cultured	plate	263125000
+Kohl.Grounhog.KPM.R014	Anaerobic	GH 2	MH	Immediately cultured	plate	275000000
+Kohl.Grounhog.KPM.R015	Anaerobic	GH 2	BHI	Immediately cultured	plate	351250000
+Kohl.Grounhog.KPM.R016	Aerobic	GH 2	GMM	Immediately cultured	plate	246875000
+Kohl.Grounhog.KPM.R017	Aerobic	GH 2	GMM	Immediately cultured	plate	273750000
+Kohl.Grounhog.KPM.R018	Aerobic	GH 2	GMM	Immediately cultured	plate	310625000
+Kohl.Grounhog.KPM.R019	Aerobic	GH 2	BHI	Immediately cultured	plate	54250000
+Kohl.Grounhog.KPM.R020	Aerobic	GH 2	BHI	Immediately cultured	plate	585000000
+Kohl.Grounhog.KPM.R021	Aerobic	GH 2	MH	Immediately cultured	plate	603750000
+Kohl.Grounhog.KPM.R022	Anaerobic	GH 3	GMM	Immediately cultured	plate	721428571
+Kohl.Grounhog.KPM.R023	Anaerobic	GH 3	GMM	Immediately cultured	plate	878571429
+Kohl.Grounhog.KPM.R024	Anaerobic	GH 3	MH	Immediately cultured	plate	89285714
+Kohl.Grounhog.KPM.R025	Anaerobic	GH 3	MH	Immediately cultured	plate	106428571
+Kohl.Grounhog.KPM.R026	Anaerobic	GH 1	BHI	Buffered Glycerol 	plate	405882353
+Kohl.Grounhog.KPM.R027	Anaerobic	GH 1	BHI	Buffered Glycerol 	plate	405882353
+Kohl.Grounhog.KPM.R028	Anaerobic	GH 1	GMM	Buffered Glycerol 	plate	168823529
+Kohl.Grounhog.KPM.R029	Anaerobic	GH 1	GMM	Buffered Glycerol 	plate	168823529
+Kohl.Grounhog.KPM.R030	Anaerobic	GH 1	GMM	Buffered Glycerol 	plate	185294118
+Kohl.Grounhog.KPM.R031	Anaerobic	GH 1	BHI	Buffered Glycerol 	plate	204705882
+Kohl.Grounhog.KPM.R032	Anaerobic	GH 1	BHI	Buffered Glycerol 	plate	477647059
+Kohl.Grounhog.KPM.R033	Anaerobic	GH 1	BHI	Stuart	plate	68666667
+Kohl.Grounhog.KPM.R034	Anaerobic	GH 1	BHI	Stuart	plate	142000000
+Kohl.Grounhog.KPM.R035	Anaerobic	GH 1	BHI	Stuart	plate	164666667
+Kohl.Grounhog.KPM.R036	Anaerobic	GH 1	GMM	Stuart	plate	44533333
+Kohl.Grounhog.KPM.R037	Anaerobic	GH 1	GMM	Stuart	plate	49866667
+Kohl.Grounhog.KPM.R038	Aerobic	GH 1	GMM	Buffered Glycerol 	plate	156470588
+Kohl.Grounhog.KPM.R039	Aerobic	GH 1	MH	Buffered Glycerol 	plate	20529412
+Kohl.Grounhog.KPM.R040	Aerobic	GH 1	MH	Buffered Glycerol 	plate	218823529
+Kohl.Grounhog.KPM.R041	Aerobic	GH 1	BHI	Buffered Glycerol 	plate	228823529
+Kohl.Grounhog.KPM.R042	Aerobic	GH 1	BHI	Buffered Glycerol 	plate	261764706
+Kohl.Grounhog.KPM.R043	Aerobic	GH 1	BHI	Stuart	plate	446666667
+Kohl.Grounhog.KPM.R044	Aerobic	GH 1	BHI	Stuart	plate	113333333
+Kohl.Grounhog.KPM.R045	Aerobic	GH 1	BHI	Stuart	plate	124000000
+Kohl.Grounhog.KPM.R046	Aerobic	GH 1	GMM	Stuart	plate	136000000
+Kohl.Grounhog.KPM.R047	Aerobic	GH 1	MH	Stuart	plate	64000000
+Kohl.Grounhog.KPM.R048	Anaerobic	GH 1	BHI	Cary blair	plate	120000000
+Kohl.Grounhog.KPM.R049	Anaerobic	GH 1	BHI	Cary blair	plate	120000000
+Kohl.Grounhog.KPM.R050	Anaerobic	GH 1	MH	Cary blair	plate	140000000
+Kohl.Grounhog.KPM.R051	Anaerobic	GH 1	MH	Cary blair	plate	140476190
+Kohl.Grounhog.KPM.R052	Anaerobic	GH 1	GMM	Cary blair	plate	157619048
+Kohl.Grounhog.KPM.R053	Anaerobic	GH 1	BHI	Cary blair	plate	184761905
+Kohl.Grounhog.KPM.R054	Anaerobic	GH 1	GMM	Cary blair	plate	32952381
+Kohl.Grounhog.KPM.R055	Anaerobic	GH 1	BHI	Preservation-free	plate	347368421
+Kohl.Grounhog.KPM.R056	Anaerobic	GH 1	MH	Preservation-free	plate	180000000
+Kohl.Grounhog.KPM.R057	Anaerobic	GH 1	BHI	Preservation-free	plate	286315789
+Kohl.Grounhog.KPM.R058	Anaerobic	GH 1	BHI	Protectant	plate	1000000000
+Kohl.Grounhog.KPM.R059	Anaerobic	GH 1	MH	Protectant	plate	162307692
+Kohl.Grounhog.KPM.R060	Anaerobic	GH 1	BHI	Protectant	plate	205384615
+Kohl.Grounhog.KPM.R061	Anaerobic	GH 1	GMM	Protectant	plate	254615385
+Kohl.Grounhog.KPM.R062	Aerobic	GH 1	GMM	Cary blair	plate	33523810
+Kohl.Grounhog.KPM.R063	Aerobic	GH 1	BHI	Preservation-free	plate	468421053
+Kohl.Grounhog.KPM.R064	Aerobic	GH 1	BHI	Preservation-free	plate	102105263
+Kohl.Grounhog.KPM.R065	Aerobic	GH 1	GMM	Preservation-free	plate	25052632
+Kohl.Grounhog.KPM.R066	Aerobic	GH 1	BHI	Protectant	plate	92307692
+Kohl.Grounhog.KPM.R067	Aerobic	GH 1	MH	Protectant	plate	185384615
+Kohl.Grounhog.KPM.R068	Anaerobic	GH 2	MH	Stuart	plate	2333333
+Kohl.Grounhog.KPM.R069	Anaerobic	GH 2	MH	Stuart	plate	3296296
+Kohl.Grounhog.KPM.R070	Anaerobic	GH 2	MH	Stuart	plate	38148148
+Kohl.Grounhog.KPM.R071	Anaerobic	GH 2	BHI	Stuart	plate	17777778
+Kohl.Grounhog.KPM.R072	Anaerobic	GH 2	BHI	Stuart	plate	26814815
+Kohl.Grounhog.KPM.R073	Aerobic	GH 2	MH	Buffered Glycerol 	plate	14315789
+Kohl.Grounhog.KPM.R074	Aerobic	GH 2	MH	Buffered Glycerol 	plate	17894737
+Kohl.Grounhog.KPM.R075	Aerobic	GH 2	GMM	Buffered Glycerol 	plate	234736842
+Kohl.Grounhog.KPM.R076	Aerobic	GH 2	GMM	Buffered Glycerol 	plate	250526316
+Kohl.Grounhog.KPM.R077	Aerobic	GH 2	BHI	Buffered Glycerol 	plate	49052632
+Kohl.Grounhog.KPM.R078	Aerobic	GH 2	MH	Stuart	plate	8000000
+Kohl.Grounhog.KPM.R079	Aerobic	GH 2	MH	Stuart	plate	9296296
+Kohl.Grounhog.KPM.R080	Aerobic	GH 2	GMM	Stuart	plate	16222222
+Kohl.Grounhog.KPM.R081	Aerobic	GH 2	BHI	Stuart	plate	16222222
+Kohl.Grounhog.KPM.R082	Anaerobic	GH 2	BHI	Cary blair	plate	38086957
+Kohl.Grounhog.KPM.R083	Anaerobic	GH 2	MH	Cary blair	plate	420869565
+Kohl.Grounhog.KPM.R084	Anaerobic	GH 2	GMM	Preservation-free	plate	143043478
+Kohl.Grounhog.KPM.R085	Anaerobic	GH 2	BHI	Preservation-free	plate	210434783
+Kohl.Grounhog.KPM.R086	Aerobic	GH 2	MH	Cary blair	plate	13352941
+Kohl.Grounhog.KPM.R087	Aerobic	GH 2	BHI	Cary blair	plate	156470588
+Kohl.Grounhog.KPM.R088	Aerobic	GH 2	BHI	Preservation-free	plate	300000
+Kohl.Grounhog.KPM.R089	Aerobic	GH 2	BHI	Preservation-free	plate	443478
+Kohl.Grounhog.KPM.R090	Aerobic	GH 2	GMM	Preservation-free	plate	110434783
+Kohl.Grounhog.KPM.R091	Aerobic	GH 2	MH	Preservation-free	plate	12391304
+Kohl.Grounhog.KPM.R092	Aerobic	GH 2	MH	Protectant	plate	220833
+Kohl.Grounhog.KPM.R093	Aerobic	GH 2	BHI	Protectant	plate	2416667
+Kohl.Grounhog.KPM.R094	Aerobic	GH 2	BHI	Protectant	plate	479167
+Kohl.Grounhog.KPM.R095	Aerobic	GH 2	MH	Protectant	plate	512500
+Kohl.Grounhog.KPM.R096	Aerobic	GH 2	BHI	Protectant	plate	575000
+Kohl.Grounhog.KPM.R097	Aerobic	GH 2	GMM	Protectant	plate	87916667
+Kohl.Grounhog.KPM.R098	Anaerobic	GH 3	MH	Buffered Glycerol 	plate	10750000
+Kohl.Grounhog.KPM.R099	Anaerobic	GH 3	MH	Buffered Glycerol 	plate	13625000
+Kohl.Grounhog.KPM.R100	Anaerobic	GH 3	GMM	Buffered Glycerol 	plate	166250000
+Kohl.Grounhog.KPM.R101	Anaerobic	GH 3	BHI	Buffered Glycerol 	plate	261875000
+Kohl.Grounhog.KPM.R102	Anaerobic	GH 3	MH	Stuart	plate	3055556
+Kohl.Grounhog.KPM.R103	Anaerobic	GH 3	GMM	Stuart	plate	97777778
+Kohl.Grounhog.KPM.R104	Anaerobic	GH 3	BHI	Stuart	plate	198888889
+Kohl.Grounhog.KPM.R105	Aerobic	GH 3	MH	Buffered Glycerol 	plate	33125000
+Kohl.Grounhog.KPM.R106	Aerobic	GH 3	MH	Buffered Glycerol 	plate	48125000
+Kohl.Grounhog.KPM.R107	Aerobic	GH 3	BHI	Buffered Glycerol 	plate	7312500
+Kohl.Grounhog.KPM.R108	Aerobic	GH 3	BHI	Stuart	plate	9444444
+Kohl.Grounhog.KPM.R109	Anaerobic	GH 3	MH	Cary blair	plate	3000000
+Kohl.Grounhog.KPM.R110	Anaerobic	GH 3	BHI	Cary blair	plate	147647059
+Kohl.Grounhog.KPM.R111	Anaerobic	GH 3	BHI	Preservation-free	plate	138461538
+Kohl.Grounhog.KPM.R112	Anaerobic	GH 3	BHI	Protectant	plate	197058824
+Kohl.Grounhog.KPM.R113	Anaerobic	GH 3	BHI	Protectant	plate	280588235
+Kohl.Grounhog.KPM.R114	Aerobic	GH 3	MH	Cary blair	plate	13352941
+Kohl.Grounhog.KPM.R115	Aerobic	GH 3	GMM	Cary blair	plate	156470588
+Kohl.Grounhog.KPM.R116	Aerobic	GH 3	BHI	Cary blair	plate	4376471
+Kohl.Grounhog.KPM.R117	Aerobic	GH 3	MH	Preservation-free	plate	976923
+Kohl.Grounhog.KPM.R118	Aerobic	GH 3	BHI	Preservation-free	plate	11230769
+Kohl.Grounhog.KPM.R119	Aerobic	GH 3	MH	Preservation-free	plate	1153846
+Kohl.Grounhog.KPM.R120	Aerobic	GH 3	BHI	Preservation-free	plate	1707692
+Kohl.Grounhog.KPM.R121	Aerobic	GH 3	GMM	Protectant	plate	187647059
+Kohl.Grounhog.KPM.R122	Aerobic	GH 3	BHI	Protectant	plate	1923529
+Kohl.Grounhog.KPM.R123	Aerobic	GH 3	BHI	Protectant	plate	2288235
+Kohl.LQ.Groundhog.KPM.G002	uncultured	GH 1	uncultured	Original Cecal Contents	uncultured	0
+Kohl.LQ.Groundhog.KPM.G003	uncultured	GH 3	uncultured	Original Cecal Contents	uncultured	0
+Kohl.LQ.Groundhog.KPM.G004	Aerobic	GH 1	MH	Immediately cultured	liquid	NA
+Kohl.LQ.Groundhog.KPM.G005	Aerobic	GH 1	GMM	Immediately cultured	liquid	NA
+Kohl.LQ.Groundhog.KPM.G006	Aerobic	GH 1	BHI	Immediately cultured	liquid	NA
+Kohl.LQ.Groundhog.KPM.G007	Aerobic	GH 2	MH	Immediately cultured	liquid	NA
+Kohl.LQ.Groundhog.KPM.G008	Aerobic	GH 2	GMM	Immediately cultured	liquid	NA
+Kohl.LQ.Groundhog.KPM.G009	Aerobic	GH 2	BHI	Immediately cultured	liquid	NA
+Kohl.LQ.Groundhog.KPM.G010	Aerobic	GH 3	MH	Immediately cultured	liquid	NA
+Kohl.LQ.Groundhog.KPM.G011	Aerobic	GH 3	GMM	Immediately cultured	liquid	NA
+Kohl.LQ.Groundhog.KPM.G013	Anaerobic	GH 1	MH	Immediately cultured	liquid	NA
+Kohl.LQ.Groundhog.KPM.G014	Anaerobic	GH 1	GMM	Immediately cultured	liquid	NA
+Kohl.LQ.Groundhog.KPM.G015	Anaerobic	GH 2	MH	Immediately cultured	liquid	NA
+Kohl.LQ.Groundhog.KPM.G016	Anaerobic	GH 2	GMM	Immediately cultured	liquid	NA
+Kohl.LQ.Groundhog.KPM.G017	Anaerobic	GH 2	BHI	Immediately cultured	liquid	NA
+Kohl.LQ.Groundhog.KPM.G018	Anaerobic	GH 3	MH	Immediately cultured	liquid	NA
+Kohl.LQ.Groundhog.KPM.G019	Anaerobic	GH 3	GMM	Immediately cultured	liquid	NA
+Kohl.LQ.Groundhog.KPM.G020	Anaerobic	GH 3	BHI	Immediately cultured	liquid	NA
+Kohl.LQ.Groundhog.KPM.G021	Aerobic	GH 1	MH	Stuart	liquid	1792000000
+Kohl.LQ.Groundhog.KPM.G022	Aerobic	GH 1	GMM	Stuart	liquid	3984000000
+Kohl.LQ.Groundhog.KPM.G023	Aerobic	GH 1	BHI	Stuart	liquid	2117333334
+Kohl.LQ.Groundhog.KPM.G025	Aerobic	GH 2	GMM	Stuart	liquid	2426666667
+Kohl.LQ.Groundhog.KPM.G026	Aerobic	GH 2	BHI	Stuart	liquid	2517333333
+Kohl.LQ.Groundhog.KPM.G027	Aerobic	GH 3	MH	Stuart	liquid	3104000000
+Kohl.LQ.Groundhog.KPM.G028	Aerobic	GH 3	GMM	Stuart	liquid	2528000000
+Kohl.LQ.Groundhog.KPM.G029	Aerobic	GH 3	BHI	Stuart	liquid	3034666667
+Kohl.LQ.Groundhog.KPM.G030	Anaerobic	GH 1	MH	Stuart	liquid	2152000000
+Kohl.LQ.Groundhog.KPM.G031	Anaerobic	GH 1	GMM	Stuart	liquid	3386666667
+Kohl.LQ.Groundhog.KPM.G032	Anaerobic	GH 1	BHI	Stuart	liquid	2728000000
+Kohl.LQ.Groundhog.KPM.G033	Anaerobic	GH 2	MH	Stuart	liquid	1168000000
+Kohl.LQ.Groundhog.KPM.G034	Anaerobic	GH 2	GMM	Stuart	liquid	3509333333
+Kohl.LQ.Groundhog.KPM.G035	Anaerobic	GH 2	BHI	Stuart	liquid	2618666667
+Kohl.LQ.Groundhog.KPM.G036	Anaerobic	GH 3	MH	Stuart	liquid	1621333334
+Kohl.LQ.Groundhog.KPM.G037	Anaerobic	GH 3	GMM	Stuart	liquid	3166666667
+Kohl.LQ.Groundhog.KPM.G038	Anaerobic	GH 3	BHI	Stuart	liquid	3108000000
+Kohl.LQ.Groundhog.KPM.G039	Aerobic	GH 1	MH	Buffered Glycerol 	liquid	2450666666
+Kohl.LQ.Groundhog.KPM.G040	Aerobic	GH 1	GMM	Buffered Glycerol 	liquid	4760000000
+Kohl.LQ.Groundhog.KPM.G041	Aerobic	GH 1	BHI	Buffered Glycerol 	liquid	3504000000
+Kohl.LQ.Groundhog.KPM.G042	Aerobic	GH 2	MH	Buffered Glycerol 	liquid	2960000000
+Kohl.LQ.Groundhog.KPM.G043	Aerobic	GH 2	GMM	Buffered Glycerol 	liquid	3181333333
+Kohl.LQ.Groundhog.KPM.G044	Aerobic	GH 2	BHI	Buffered Glycerol 	liquid	2672000000
+Kohl.LQ.Groundhog.KPM.G045	Aerobic	GH 3	MH	Buffered Glycerol 	liquid	2666666666
+Kohl.LQ.Groundhog.KPM.G046	Aerobic	GH 3	GMM	Buffered Glycerol 	liquid	2397333334
+Kohl.LQ.Groundhog.KPM.G047	Aerobic	GH 3	BHI	Buffered Glycerol 	liquid	2589333334
+Kohl.LQ.Groundhog.KPM.G048	Anaerobic	GH 1	MH	Buffered Glycerol 	liquid	3306666667
+Kohl.LQ.Groundhog.KPM.G049	Anaerobic	GH 1	GMM	Buffered Glycerol 	liquid	3994666667
+Kohl.LQ.Groundhog.KPM.G050	Anaerobic	GH 1	BHI	Buffered Glycerol 	liquid	3413333334
+Kohl.LQ.Groundhog.KPM.G051	Anaerobic	GH 2	MH	Buffered Glycerol 	liquid	1685333334
+Kohl.LQ.Groundhog.KPM.G052	Anaerobic	GH 2	GMM	Buffered Glycerol 	liquid	3714666666
+Kohl.LQ.Groundhog.KPM.G053	Anaerobic	GH 2	BHI	Buffered Glycerol 	liquid	3058666666
+Kohl.LQ.Groundhog.KPM.G054	Anaerobic	GH 3	MH	Buffered Glycerol 	liquid	1506666667
+Kohl.LQ.Groundhog.KPM.G055	Anaerobic	GH 3	GMM	Buffered Glycerol 	liquid	3096000000
+Kohl.LQ.Groundhog.KPM.G056	Anaerobic	GH 3	BHI	Buffered Glycerol 	liquid	3149333333
+Kohl.LQ.Groundhog.KPM.G057	Aerobic	GH 1	MH	Preservation-free	liquid	1520000000
+Kohl.LQ.Groundhog.KPM.G058	Aerobic	GH 1	GMM	Preservation-free	liquid	3402666667
+Kohl.LQ.Groundhog.KPM.G059	Aerobic	GH 1	BHI	Preservation-free	liquid	2608000000
+Kohl.LQ.Groundhog.KPM.G060	Aerobic	GH 2	MH	Preservation-free	liquid	2125333333
+Kohl.LQ.Groundhog.KPM.G061	Aerobic	GH 2	GMM	Preservation-free	liquid	2109333333
+Kohl.LQ.Groundhog.KPM.G062	Aerobic	GH 2	BHI	Preservation-free	liquid	2816000000
+Kohl.LQ.Groundhog.KPM.G063	Aerobic	GH 3	MH	Preservation-free	liquid	2320000000
+Kohl.LQ.Groundhog.KPM.G064	Aerobic	GH 3	GMM	Preservation-free	liquid	3736000000
+Kohl.LQ.Groundhog.KPM.G065	Aerobic	GH 3	BHI	Preservation-free	liquid	2941333333
+Kohl.LQ.Groundhog.KPM.G066	Anaerobic	GH 1	MH	Preservation-free	liquid	1890666666
+Kohl.LQ.Groundhog.KPM.G067	Anaerobic	GH 1	GMM	Preservation-free	liquid	3341333333
+Kohl.LQ.Groundhog.KPM.G068	Anaerobic	GH 1	BHI	Preservation-free	liquid	2885333333
+Kohl.LQ.Groundhog.KPM.G069	Anaerobic	GH 2	MH	Preservation-free	liquid	1829333333
+Kohl.LQ.Groundhog.KPM.G070	Anaerobic	GH 2	GMM	Preservation-free	liquid	1733333333
+Kohl.LQ.Groundhog.KPM.G071	Anaerobic	GH 2	BHI	Preservation-free	liquid	1949333334
+Kohl.LQ.Groundhog.KPM.G072	Anaerobic	GH 3	MH	Preservation-free	liquid	2114666667
+Kohl.LQ.Groundhog.KPM.G073	Anaerobic	GH 3	GMM	Preservation-free	liquid	2925333333
+Kohl.LQ.Groundhog.KPM.G074	Anaerobic	GH 3	BHI	Preservation-free	liquid	3146666667
+Kohl.LQ.Groundhog.KPM.G075	Aerobic	GH 1	MH	Cary blair	liquid	1370666667
+Kohl.LQ.Groundhog.KPM.G076	Aerobic	GH 1	GMM	Cary blair	liquid	2968000000
+Kohl.LQ.Groundhog.KPM.G077	Aerobic	GH 1	BHI	Cary blair	liquid	3440000000
+Kohl.LQ.Groundhog.KPM.G078	Aerobic	GH 2	MH	Cary blair	liquid	1832000000
+Kohl.LQ.Groundhog.KPM.G079	Aerobic	GH 2	GMM	Cary blair	liquid	2208000000
+Kohl.LQ.Groundhog.KPM.G080	Aerobic	GH 2	BHI	Cary blair	liquid	2114666666
+Kohl.LQ.Groundhog.KPM.G081	Aerobic	GH 3	MH	Cary blair	liquid	2600000000
+Kohl.LQ.Groundhog.KPM.G082	Aerobic	GH 3	GMM	Cary blair	liquid	3488000000
+Kohl.LQ.Groundhog.KPM.G083	Aerobic	GH 3	BHI	Cary blair	liquid	3101333334
+Kohl.LQ.Groundhog.KPM.G084	Anaerobic	GH 1	MH	Cary blair	liquid	2042666667
+Kohl.LQ.Groundhog.KPM.G085	Anaerobic	GH 1	GMM	Cary blair	liquid	3360000000
+Kohl.LQ.Groundhog.KPM.G086	Anaerobic	GH 1	BHI	Cary blair	liquid	2861333334
+Kohl.LQ.Groundhog.KPM.G087	Anaerobic	GH 2	MH	Cary blair	liquid	1970666667
+Kohl.LQ.Groundhog.KPM.G088	Anaerobic	GH 2	GMM	Cary blair	liquid	1826666667
+Kohl.LQ.Groundhog.KPM.G089	Anaerobic	GH 2	BHI	Cary blair	liquid	2880000000
+Kohl.LQ.Groundhog.KPM.G090	Anaerobic	GH 3	MH	Cary blair	liquid	1978666667
+Kohl.LQ.Groundhog.KPM.G091	Anaerobic	GH 3	GMM	Cary blair	liquid	2973333333
+Kohl.LQ.Groundhog.KPM.G092	Anaerobic	GH 3	BHI	Cary blair	liquid	2888000000
+Kohl.LQ.Groundhog.KPM.G093	Aerobic	GH 1	MH	Protectant	liquid	1341333334
+Kohl.LQ.Groundhog.KPM.G094	Aerobic	GH 1	GMM	Protectant	liquid	3261333333
+Kohl.LQ.Groundhog.KPM.G095	Aerobic	GH 1	BHI	Protectant	liquid	2384000000
+Kohl.LQ.Groundhog.KPM.G096	Aerobic	GH 2	MH	Protectant	liquid	2125333333
+Kohl.LQ.Groundhog.KPM.G097	Aerobic	GH 2	GMM	Protectant	liquid	2000000000
+Kohl.LQ.Groundhog.KPM.G098	Aerobic	GH 2	BHI	Protectant	liquid	2429333333
+Kohl.LQ.Groundhog.KPM.G099	Aerobic	GH 3	MH	Protectant	liquid	2410666667
+Kohl.LQ.Groundhog.KPM.G100	Aerobic	GH 3	GMM	Protectant	liquid	2813333333
+Kohl.LQ.Groundhog.KPM.G101	Aerobic	GH 3	BHI	Protectant	liquid	3018666666
+Kohl.LQ.Groundhog.KPM.G102	Anaerobic	GH 1	MH	Protectant	liquid	2080000000
+Kohl.LQ.Groundhog.KPM.G103	Anaerobic	GH 1	GMM	Protectant	liquid	3885333334
+Kohl.LQ.Groundhog.KPM.G104	Anaerobic	GH 1	BHI	Protectant	liquid	2352000000
+Kohl.LQ.Groundhog.KPM.G105	Anaerobic	GH 2	MH	Protectant	liquid	1738666666
+Kohl.LQ.Groundhog.KPM.G106	Anaerobic	GH 2	GMM	Protectant	liquid	1760000000
+Kohl.LQ.Groundhog.KPM.G107	Anaerobic	GH 2	BHI	Protectant	liquid	2768000000
+Kohl.LQ.Groundhog.KPM.G108	Anaerobic	GH 3	MH	Protectant	liquid	1952000000
+Kohl.LQ.Groundhog.KPM.G109	Anaerobic	GH 3	GMM	Protectant	liquid	3029333333
+Kohl.LQ.Groundhog.KPM.G110	Anaerobic	GH 3	BHI	Protectant	liquid	2960000000

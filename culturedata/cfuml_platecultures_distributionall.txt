@@ -1,0 +1,126 @@
+ Culture Date	Culture Condition	Replicate 	Serial Dilution	animal	Culture Media	preservation	Avg [Bact]	CFU/ml	density
+10/10/20	Anaerobic	r1	3-Oct	groundhog 1	BHI	Cary blair	252	120000000	100800000
+10/10/20	Anaerobic	r1	3-Oct	groundhog 1	BHI	Cary blair	252	120000000	100800000
+10/10/20	Anaerobic	r1	3-Oct	groundhog 1	MH	Cary blair	294	140000000	117600000
+10/10/20	Anaerobic	r2	3-Oct	groundhog 1	MH	Cary blair	295	140476190	118000000
+10/10/20	Anaerobic	r1	3-Oct	groundhog 1	GMM	Cary blair	331	157619048	132400000
+10/10/20	Anaerobic	r2	3-Oct	groundhog 1	BHI	Cary blair	388	184761905	155200000
+10/10/20	Anaerobic	r2	2-Oct	groundhog 1	GMM	Cary blair	692	32952381	27680000
+10/10/20	Anaerobic	r2	4-Oct	groundhog 1	BHI	Preservation-free	66	347368421	264000000
+10/10/20	Anaerobic	r1	3-Oct	groundhog 1	MH	Preservation-free	342	180000000	136800000
+10/10/20	Anaerobic	r2	3-Oct	groundhog 1	BHI	Preservation-free	544	286315789	217600000
+10/5/20	Anaerobic	r1	4-Oct	groundhog 1	BHI	Buffered glycerol	69	405882353	276000000
+10/5/20	Anaerobic	r2	4-Oct	groundhog 1	BHI	Buffered glycerol	69	405882353	276000000
+10/5/20	Anaerobic	r3	3-Oct	groundhog 1	GMM	Buffered glycerol	287	168823529	114800000
+10/5/20	Anaerobic	r3	3-Oct	groundhog 1	GMM	Buffered glycerol	287	168823529	114800000
+10/5/20	Anaerobic	r2	3-Oct	groundhog 1	GMM	Buffered glycerol	315	185294118	126000000
+10/5/20	Anaerobic	r3	3-Oct	groundhog 1	BHI	Buffered glycerol	348	204705882	139200000
+10/5/20	Anaerobic	r2	3-Oct	groundhog 1	BHI	Buffered glycerol	812	477647059	324800000
+10/10/20	Anaerobic	r2	4-Oct	groundhog 1	BHI	Protectant	130	1000000000	520000000
+10/10/20	Anaerobic	r2	3-Oct	groundhog 1	MH	Protectant	211	162307692	84400000
+10/10/20	Anaerobic	r1	3-Oct	groundhog 1	BHI	Protectant	267	205384615	106800000
+10/10/20	Anaerobic	r1	3-Oct	groundhog 1	GMM	Protectant	331	254615385	132400000
+10/5/20	Anaerobic	r2	3-Oct	groundhog 1	BHI	Stuart	103	68666667	41200000
+10/5/20	Anaerobic	r3	3-Oct	groundhog 1	BHI	Stuart	213	142000000	85200000
+10/5/20	Anaerobic	r1	3-Oct	groundhog 1	BHI	Stuart	247	164666667	98800000
+10/5/20	Anaerobic	r2	2-Oct	groundhog 1	GMM	Stuart	668	44533333	26720000
+10/5/20	Anaerobic	r1	2-Oct	groundhog 1	GMM	Stuart	748	49866667	29920000
+11/16/20	Anaerobic	r2	2-Oct	groundhog 2	BHI	Cary blair	876	38086957	35040000
+11/16/20	Anaerobic	r2	3-Oct	groundhog 2	MH	Cary blair	968	420869565	387200000
+9/15/20	Anaerobic	r3	1-Oct	groundhog 2	BHI	Immediately cultured	353	2206250	1412000
+9/15/20	Anaerobic	r3	3-Oct	groundhog 2	MH	Immediately cultured	359	224375000	143600000
+9/15/20	Anaerobic	r3	3-Oct	groundhog 2	MH	Immediately cultured	359	224375000	143600000
+9/15/20	Anaerobic	r1	3-Oct	groundhog 2	MH	Immediately cultured	367	229375000	146800000
+9/15/20	Anaerobic	r1	3-Oct	groundhog 2	BHI	Immediately cultured	421	263125000	168400000
+9/15/20	Anaerobic	r2	3-Oct	groundhog 2	MH	Immediately cultured	440	275000000	176000000
+9/15/20	Anaerobic	r3	3-Oct	groundhog 2	BHI	Immediately cultured	510	318750000	204000000
+9/15/20	Anaerobic	r2	3-Oct	groundhog 2	BHI	Immediately cultured	562	351250000	224800000
+11/16/20	Anaerobic	r1	3-Oct	groundhog 2	GMM	Preservation-free	329	143043478	131600000
+11/16/20	Anaerobic	r1	3-Oct	groundhog 2	BHI	Preservation-free	484	210434783	193600000
+11/9/20	Anaerobic	r1	2-Oct	groundhog 2	MH	Stuart	63	2333333	2520000
+11/9/20	Anaerobic	r2	2-Oct	groundhog 2	MH	Stuart	89	3296296	3560000
+11/9/20	Anaerobic	r2	3-Oct	groundhog 2	MH	Stuart	103	38148148	41200000
+11/9/20	Anaerobic	r1	2-Oct	groundhog 2	BHI	Stuart	480	17777778	19200000
+11/9/20	Anaerobic	r2	2-Oct	groundhog 2	BHI	Stuart	724	26814815	28960000
+2/1/21	Anaerobic	r1	2-Oct	groundhog 3	MH	Cary blair	51	3000000	2040000
+2/1/21	Anaerobic	r1	3-Oct	groundhog 3	BHI	Cary blair	251	147647059	100400000
+9/29/20	Anaerobic	r1	4-Oct	groundhog 3	GMM	Immediately cultured	101	721428571	404000000
+9/29/20	Anaerobic	r2	4-Oct	groundhog 3	GMM	Immediately cultured	123	878571429	492000000
+9/29/20	Anaerobic	r1	3-Oct	groundhog 3	MH	Immediately cultured	125	89285714	50000000
+9/29/20	Anaerobic	r3	3-Oct	groundhog 3	MH	Immediately cultured	149	106428571	59600000
+2/1/21	Anaerobic	r1	3-Oct	groundhog 3	BHI	Preservation-free	180	138461538	72000000
+1/28/21	Anaerobic	r1	2-Oct	groundhog 3	MH	Buffered glycerol	172	10750000	6880000
+1/28/21	Anaerobic	r2	2-Oct	groundhog 3	MH	Buffered glycerol	218	13625000	8720000
+1/28/21	Anaerobic	r2	3-Oct	groundhog 3	GMM	Buffered glycerol	266	166250000	106400000
+1/28/21	Anaerobic	r1	3-Oct	groundhog 3	BHI	Buffered glycerol	419	261875000	167600000
+2/1/21	Anaerobic	r2	3-Oct	groundhog 3	BHI	Protectant	335	197058824	134000000
+2/1/21	Anaerobic	r1	3-Oct	groundhog 3	BHI	Protectant	477	280588235	190800000
+1/28/21	Anaerobic	r1	2-Oct	groundhog 3	MH	Stuart	55	3055556	2200000
+1/28/21	Anaerobic	r1	3-Oct	groundhog 3	GMM	Stuart	176	97777778	70400000
+1/28/21	Anaerobic	r1	3-Oct	groundhog 3	BHI	Stuart	358	198888889	143200000
+10/10/20	Aerobic	r2	2-Oct	groundhog 1	GMM	Cary blair	704	33523810	28160000
+8/13/20	Aerobic	r1	4-Oct	groundhog 1	MH	Immediately cultured	118	655555556	472000000
+8/13/20	Aerobic	r2	4-Oct	groundhog 1	MH	Immediately cultured	118	655555556	472000000
+8/13/20	Aerobic	r3	10-3 + 10-4	groundhog 1	GMM	Immediately cultured	231	1283333333	924000000
+8/13/20	Aerobic	r2	10-3 + 10-4	groundhog 1	GMM	Immediately cultured	273	1516666667	1092000000
+8/13/20	Aerobic	r1	3-Oct	groundhog 1	GMM	Immediately cultured	283	157222222	113200000
+8/13/20	Aerobic	r1	10-3 + 10-4	groundhog 1	GMM	Immediately cultured	283	1572222222	1132000000
+8/13/20	Aerobic	r2	3-Oct	groundhog 1	MH	Immediately cultured	285	158333333	114000000
+8/13/20	Aerobic	r1	3-Oct	groundhog 1	MH	Immediately cultured	746	414444444	298400000
+8/13/20	Aerobic	r3	3-Oct	groundhog 1	MH	Immediately cultured	842	467777778	336800000
+10/10/20	Aerobic	r2	4-Oct	groundhog 1	BHI	Preservation-free	89	468421053	356000000
+10/10/20	Aerobic	r1	3-Oct	groundhog 1	BHI	Preservation-free	194	102105263	77600000
+10/10/20	Aerobic	r2	2-Oct	groundhog 1	GMM	Preservation-free	476	25052632	19040000
+10/5/20	Aerobic	r1	10-2 + 10-3	groundhog 1	GMM	Buffered glycerol	266	156470588	106400000
+10/5/20	Aerobic	r2	2-Oct	groundhog 1	MH	Buffered glycerol	349	20529412	13960000
+10/5/20	Aerobic	r1	3-Oct	groundhog 1	MH	Buffered glycerol	372	218823529	148800000
+10/5/20	Aerobic	r3	3-Oct	groundhog 1	BHI	Buffered glycerol	389	228823529	155600000
+10/5/20	Aerobic	r1	3-Oct	groundhog 1	BHI	Buffered glycerol	445	261764706	178000000
+10/10/20	Aerobic	r2	3-Oct	groundhog 1	BHI	Protectant	120	92307692	48000000
+10/10/20	Aerobic	r2	3-Oct	groundhog 1	MH	Protectant	241	185384615	96400000
+10/5/20	Aerobic	r1	4-Oct	groundhog 1	BHI	Stuart	67	446666667	268000000
+10/5/20	Aerobic	r3	3-Oct	groundhog 1	BHI	Stuart	170	113333333	68000000
+10/5/20	Aerobic	r2	3-Oct	groundhog 1	BHI	Stuart	186	124000000	74400000
+10/5/20	Aerobic	r3	3-Oct	groundhog 1	GMM	Stuart	204	136000000	81600000
+10/5/20	Aerobic	r3	2-Oct	groundhog 1	MH	Stuart	960	64000000	38400000
+1/20/21	Aerobic	r2	2-Oct	groundhog 2	MH	Cary blair	139	6043478	5560000
+1/20/21	Aerobic	r1	1-Oct	groundhog 2	BHI	Cary blair	182	791304	728000
+9/15/20	Aerobic	r2	3-Oct	groundhog 2	GMM	Immediately cultured	395	246875000	158000000
+9/15/20	Aerobic	r3	3-Oct	groundhog 2	GMM	Immediately cultured	438	273750000	175200000
+9/15/20	Aerobic	r1	3-Oct	groundhog 2	GMM	Immediately cultured	497	310625000	198800000
+9/15/20	Aerobic	r3	2-Oct	groundhog 2	BHI	Immediately cultured	868	54250000	34720000
+9/15/20	Aerobic	r2	3-Oct	groundhog 2	BHI	Immediately cultured	936	585000000	374400000
+9/15/20	Aerobic	r3	3-Oct	groundhog 2	MH	Immediately cultured	966	603750000	386400000
+1/20/21	Aerobic	r2	1-Oct	groundhog 2	BHI	Preservation-free	69	300000	276000
+1/20/21	Aerobic	r1	1-Oct	groundhog 2	BHI	Preservation-free	102	443478	408000
+1/20/21	Aerobic	r2	3-Oct	groundhog 2	GMM	Preservation-free	254	110434783	101600000
+1/20/21	Aerobic	r1	2-Oct	groundhog 2	MH	Preservation-free	285	12391304	11400000
+11/13/20	Aerobic	r3	2-Oct	groundhog 2	MH	Buffered glycerol	272	14315789	10880000
+11/13/20	Aerobic	r1	2-Oct	groundhog 2	MH	Buffered glycerol	340	17894737	13600000
+11/13/20	Aerobic	r2	3-Oct	groundhog 2	GMM	Buffered glycerol	446	234736842	178400000
+11/13/20	Aerobic	r1	3-Oct	groundhog 2	GMM	Buffered glycerol	476	250526316	190400000
+11/13/20	Aerobic	r1	2-Oct	groundhog 2	BHI	Buffered glycerol	932	49052632	37280000
+1/20/21	Aerobic	r3	1-Oct	groundhog 2	MH	Protectant	53	220833	212000
+1/20/21	Aerobic	r2	2-Oct	groundhog 2	BHI	Protectant	58	2416667	2320000
+1/20/21	Aerobic	r1	1-Oct	groundhog 2	BHI	Protectant	115	479167	460000
+1/20/21	Aerobic	r1	1-Oct	groundhog 2	MH	Protectant	123	512500	492000
+1/20/21	Aerobic	r2	1-Oct	groundhog 2	BHI	Protectant	138	575000	552000
+1/20/21	Aerobic	r3	3-Oct	groundhog 2	GMM	Protectant	211	87916667	84400000
+11/13/20	Aerobic	r3	2-Oct	groundhog 2	MH	Stuart	216	8000000	8640000
+11/13/20	Aerobic	r1	2-Oct	groundhog 2	MH	Stuart	251	9296296	10040000
+11/13/20	Aerobic	r1	2-Oct	groundhog 2	GMM	Stuart	438	16222222	17520000
+11/13/20	Aerobic	r2	2-Oct	groundhog 2	BHI	Stuart	438	16222222	17520000
+2/1/21	Aerobic	r3	2-Oct	groundhog 3	MH	Cary blair	227	13352941	9080000
+2/1/21	Aerobic	r2	3-Oct	groundhog 3	GMM	Cary blair	266	156470588	106400000
+2/1/21	Aerobic	r2	1-Oct	groundhog 3	BHI	Cary blair	744	4376471	2976000
+2/1/21	Aerobic	r3	1-Oct	groundhog 3	MH	Preservation-free	127	976923	508000
+2/1/21	Aerobic	r3	2-Oct	groundhog 3	BHI	Preservation-free	146	11230769	5840000
+2/1/21	Aerobic	r1	1-Oct	groundhog 3	MH	Preservation-free	150	1153846	600000
+2/1/21	Aerobic	r1	1-Oct	groundhog 3	BHI	Preservation-free	222	1707692	888000
+1/28/21	Aerobic	r3	3-Oct	groundhog 3	MH	Buffered glycerol	53	33125000	21200000
+1/28/21	Aerobic	r2	3-Oct	groundhog 3	MH	Buffered glycerol	77	48125000	30800000
+1/28/21	Aerobic	r2	2-Oct	groundhog 3	BHI	Buffered glycerol	117	7312500	4680000
+2/1/21	Aerobic	r3	3-Oct	groundhog 3	GMM	Protectant	319	187647059	127600000
+2/1/21	Aerobic	r2	1-Oct	groundhog 3	BHI	Protectant	327	1923529	1308000
+2/1/21	Aerobic	r1	1-Oct	groundhog 3	BHI	Protectant	389	2288235	1556000
+1/28/21	Aerobic	r1	2-Oct	groundhog 3	BHI	Stuart	170	9444444	6800000
