@@ -2,7 +2,7 @@
 
 Welcome!
 
-Here you will find the codes used in the analysis we ran for our manuscript "...". We would be happy to help in way we can, so please do not hesitate to reach out if you have questions or suggestions. 
+Here you will find the codes used in the analysis we ran for our manuscript titled "Reviving diversity: cryoprotectants and culturing methods enhance recovery of mammalian gut microbes from field samples". We would be happy to help in way we can, so please do not hesitate to reach out if you have questions or suggestions. 
 
 In summary, we developed this study in response to challenges encountered in our own field research. Recent advancements in culturomics and microbiology are enabling us to further explore the realm of microbiome science. We aspire for this study to serve as a foundational step toward identifying preservation methods that can help protect the microbial communities of wild animals.
 
